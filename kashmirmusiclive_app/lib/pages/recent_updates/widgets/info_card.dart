@@ -2,28 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:kashmirmusiclive_app/constants/style.dart';
 
 class InfoCard extends StatelessWidget {
+  final String reviewType; // SONG, ALBUM
   final String title;
-  final String value;
-  final Color? topColor;
-  final bool isActive;
+  final String? subtitle;
+  final String reviewBy;
+  final String imageUrl;
   final Function() onTap;
 
-  const InfoCard(
-      {Key? key,
-      required this.title,
-      required this.value,
-      this.isActive = false,
-      required this.onTap,
-      this.topColor})
-      : super(key: key);
+  const InfoCard({
+    Key? key,
+    required this.reviewType,
+    required this.title,
+    this.subtitle,
+    required this.reviewBy,
+    required this.imageUrl,
+    required this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    double _width = MediaQuery.of(context).size.width;
+    double _height = MediaQuery.of(context).size.height;
     return Expanded(
       child: InkWell(
         onTap: onTap,
         child: Container(
-          height: 136,
+          height: _width / 4.0,
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: Colors.white,
@@ -35,32 +39,63 @@ class InfoCard extends StatelessWidget {
             ],
             borderRadius: BorderRadius.circular(8),
           ),
-          child: Column(
+          child: Row(
             children: [
-              Row(
-                children: [
-                  Expanded(
-                      child: Container(
-                    color: topColor ?? active,
-                    height: 5,
-                  ))
-                ],
+              SizedBox(
+                height: _width / 4.0,
+                width: _width / 4.0,
+                child: Image.asset(
+                  imageUrl,
+                  fit: BoxFit.fill,
+                ),
               ),
-              Expanded(child: Container()),
-              RichText(
-                  textAlign: TextAlign.center,
-                  text: TextSpan(children: [
-                    TextSpan(
-                        text: "$title\n",
-                        style: TextStyle(
-                            fontSize: 16,
-                            color: isActive ? active : lightGrey)),
-                    TextSpan(
-                        text: "$value",
-                        style: TextStyle(
-                            fontSize: 40, color: isActive ? active : dark)),
-                  ])),
-              Expanded(child: Container()),
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      vertical: _width / 40.0, horizontal: _width / 20.0),
+                  child: Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.only(
+                            bottom: 0.5, // Space between underline and text
+                          ),
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(
+                            color: active,
+                            width: 2.0, // Underline thickness
+                          ))),
+                          child: Text(
+                            "$reviewType " + "REVIEW",
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: dark,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: _width / 50.0),
+                        Text("$title",
+                            style: TextStyle(
+                              fontSize: _width / 45.0,
+                              color: dark,
+                              fontWeight: FontWeight.bold,
+                            )),
+                        SizedBox(height: _width / 50.0),
+                        Text("BY ${reviewBy.toUpperCase()}\n",
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: dark,
+                              fontWeight: FontWeight.bold,
+                            )),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

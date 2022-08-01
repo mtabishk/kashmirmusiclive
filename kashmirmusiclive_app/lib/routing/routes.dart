@@ -10,7 +10,7 @@ const reviewsPageDisplayName = "Reviews";
 const reviewsPageRoute = "/reviews";
 
 const authenticationPageDisplayName = "Log out";
-const authenticationPageRoute = "/auth";
+const authenticationPageRoute = "/admin";
 
 class MenuItem {
   final String name;

@@ -6,42 +6,71 @@ class UpdateCardsSmallScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
 
-    return Container(
-      height: 400,
-      child: Column(
-        children: [
-          InfoCardSmall(
-            title: "Rides in progress",
-            value: "7",
-            onTap: () {},
-            isActive: true,
-          ),
-          SizedBox(
-            height: _width / 64,
-          ),
-          InfoCardSmall(
-            title: "Packages delivered",
-            value: "17",
-            onTap: () {},
-          ),
-          SizedBox(
-            height: _width / 64,
-          ),
-          InfoCardSmall(
-            title: "Cancelled delivery",
-            value: "3",
-            onTap: () {},
-          ),
-          SizedBox(
-            height: _width / 64,
-          ),
-          InfoCardSmall(
-            title: "Scheduled deliveries",
-            value: "32",
-            onTap: () {},
-          ),
-        ],
-      ),
+    return Column(
+      children: [
+        Row(
+          children: [
+            InfoCardSmall(
+              reviewType: "ALBUM S",
+              reviewBy: "Kashmiri Music Live",
+              title:
+                  "Where the Kashmiri rapper’s debut album was a fist-waving call to arms, Azli is a desolate post-mortem of a revolution stalled.",
+              subtitle: "7",
+              imageUrl: "assets/images/azli_album_art.jpg",
+              onTap: () {},
+            ),
+          ],
+        ),
+        SizedBox(
+          height: _width / 64,
+        ),
+        Row(
+          children: [
+            InfoCardSmall(
+              reviewType: "SONG",
+              reviewBy: "Kashmiri Music Live",
+              title: "Kashmir Song in KEEF album exclusive review",
+              subtitle: "7",
+              imageUrl: "assets/images/keef_album_art.jpg",
+              onTap: () {},
+            ),
+          ],
+        ),
+        SizedBox(
+          height: _width / 64,
+        ),
+        Row(
+          children: [
+            InfoCardSmall(
+              reviewType: "ALBUM",
+              reviewBy: "Kashmiri Music Live",
+              title:
+                  "Where the Kashmiri rapper’s debut album was a fist-waving call to arms, Azli is a desolate post-mortem of a revolution stalled.",
+              subtitle: "7",
+              imageUrl: "assets/images/azli_album_art.jpg",
+              onTap: () {},
+            ),
+          ],
+        ),
+        SizedBox(
+          height: _width / 64,
+        ),
+        Row(
+          children: [
+            InfoCardSmall(
+              reviewType: "SONG",
+              reviewBy: "Kashmiri Music Live",
+              title: "Kashmir Song in KEEF album exclusive review",
+              subtitle: "7",
+              imageUrl: "assets/images/keef_album_art.jpg",
+              onTap: () {},
+            ),
+          ],
+        ),
+        SizedBox(
+          height: _width / 64,
+        ),
+      ],
     );
   }
 }

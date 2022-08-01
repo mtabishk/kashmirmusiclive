@@ -22,7 +22,7 @@ class AuthenticationPage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(right: 12),
                     child: SizedBox(
-                        height: 40,
+                        height: 80,
                         child: ClipOval(
                             child: Image.asset("assets/icons/logo.png"))),
                   ),
@@ -81,7 +81,7 @@ class AuthenticationPage extends StatelessWidget {
                     children: [
                       Checkbox(value: true, onChanged: (value) {}),
                       CustomText(
-                        text: "Remeber Me",
+                        text: "Remember Me",
                       ),
                     ],
                   ),
@@ -110,13 +110,13 @@ class AuthenticationPage extends StatelessWidget {
               SizedBox(
                 height: 15,
               ),
-              RichText(
-                  text: TextSpan(children: [
-                TextSpan(text: "Do not have admin credentials? "),
-                TextSpan(
-                    text: "Request Credentials! ",
-                    style: TextStyle(color: active))
-              ]))
+              // RichText(
+              //     text: TextSpan(children: [
+              //   TextSpan(text: "Do not have admin credentials? "),
+              //   TextSpan(
+              //       text: "Request Credentials! ",
+              //       style: TextStyle(color: active))
+              // ]))
             ],
           ),
         ),

@@ -41,10 +41,10 @@ class LyricsTable extends StatelessWidget {
             ),
           ],
           rows: List<DataRow>.generate(
-              15,
+              20,
               (index) => DataRow(cells: [
-                    DataCell(CustomText(text: "Weeknd")),
-                    DataCell(CustomText(text: "Heartless")),
+                    DataCell(CustomText(text: "Kun")),
+                    DataCell(CustomText(text: "Ahmer")),
                     DataCell(Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [

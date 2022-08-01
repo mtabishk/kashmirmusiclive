@@ -12,22 +12,42 @@ class UpdateCardsLargeScreen extends StatelessWidget {
         Row(
           children: [
             InfoCard(
+              reviewType: "ALBUM",
+              reviewBy: "Kashmiri Music Live",
+              title:
+                  "Where the Kashmiri rapper’s debut album was a fist-waving call to arms, Azli is a desolate post-mortem of a revolution stalled.",
+              subtitle: "7",
+              imageUrl: "assets/images/azli_album_art.jpg",
+              onTap: () {},
+            ),
+          ],
+        ),
+        SizedBox(
+          height: _width / 64,
+        ),
+        Row(
+          children: [
+            InfoCard(
+              reviewType: "SONG",
+              reviewBy: "Kashmiri Music Live",
+              title: "Kashmir Song in KEEF album exclusive review",
+              subtitle: "7",
+              imageUrl: "assets/images/keef_album_art.jpg",
+              onTap: () {},
+            ),
+          ],
+        ),
+        SizedBox(
+          height: _width / 64,
+        ),
+        Row(
+          children: [
+            InfoCard(
+              reviewType: "SONG",
+              reviewBy: "Kashmiri Music Live",
               title: "Rides in progress",
-              value: "7",
-              onTap: () {},
-              topColor: Colors.orange,
-            ),
-          ],
-        ),
-        SizedBox(
-          height: _width / 64,
-        ),
-        Row(
-          children: [
-            InfoCard(
-              title: "Packages delivered",
-              value: "17",
-              topColor: Colors.lightGreen,
+              subtitle: "7",
+              imageUrl: "assets/images/keef_album_art.jpg",
               onTap: () {},
             ),
           ],
@@ -38,24 +58,17 @@ class UpdateCardsLargeScreen extends StatelessWidget {
         Row(
           children: [
             InfoCard(
-              title: "Cancelled delivery",
-              value: "3",
-              topColor: Colors.redAccent,
+              reviewType: "SONG",
+              reviewBy: "Kashmiri Music Live",
+              title: "Rides in progress",
+              subtitle: "7",
+              imageUrl: "assets/images/azli_album_art.jpg",
               onTap: () {},
             ),
           ],
         ),
         SizedBox(
           height: _width / 64,
-        ),
-        Row(
-          children: [
-            InfoCard(
-              title: "Scheduled deliveries",
-              value: "32",
-              onTap: () {},
-            ),
-          ],
         ),
       ],
     );
