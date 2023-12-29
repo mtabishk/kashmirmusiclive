@@ -6,7 +6,9 @@ export default function Home() {
       <CountdownTimer startDate="2024-01-01">
         <h2 className="text-3xl font-bold text-white/80">
           Kashmir Music{" "}
-          <span className="text-3xl font-bold text-red-700">Live</span>
+          <span className="text-3xl font-bold text-red-700 animate-pulse">
+            Live
+          </span>
         </h2>
       </CountdownTimer>
     </div>
