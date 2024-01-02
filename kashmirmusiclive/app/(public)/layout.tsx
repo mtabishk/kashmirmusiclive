@@ -1,5 +1,7 @@
+import { Footer } from "@/components/footer";
+import { MobileNavBar } from "@/components/mobile-navbar";
+import { Navbar } from "@/components/navbar";
 import React from "react";
-import { Navbar } from "@/components/Navbar";
 
 export default function PublicLayout({
   children,
@@ -9,7 +11,9 @@ export default function PublicLayout({
   return (
     <div>
       <Navbar />
+      <MobileNavBar />
       {children}
+      <Footer />
     </div>
   );
 }

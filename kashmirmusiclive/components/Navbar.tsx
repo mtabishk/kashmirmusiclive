@@ -63,11 +63,11 @@ export const Navbar = () => {
     };
   }, []);
 
-  const navbarHeight = scrollY ? "8vh" : "22vh";
+  const navbarHeight = scrollY ? "60px" : "164px";
 
   return (
     <nav
-      className={`fixed top-0 left-0 w-full flex-col items-center justify-center transition-all ease-in-out duration-150 bg-black/90`}
+      className={`fixed top-0 left-0 w-full flex-col items-center justify-center transition-all ease-in-out duration-150 bg-black/90 hidden md:block`}
       style={{ height: navbarHeight }}
     >
       {!scrollY && (
