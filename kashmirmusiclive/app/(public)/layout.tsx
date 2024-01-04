@@ -9,11 +9,11 @@ export default function PublicLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div>
+    <>
       <Navbar />
       <MobileNavBar />
       {children}
       <Footer />
-    </div>
+    </>
   );
 }

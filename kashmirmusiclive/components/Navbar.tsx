@@ -2,10 +2,11 @@
 
 import { cn } from "@/lib/utils";
 import React, { useEffect, useState } from "react";
-import { Titan_One } from "next/font/google";
 import { Separator } from "./ui/separator";
 import { usePathname } from "next/navigation";
 import { Search } from "lucide-react";
+import { Titan_One } from "next/font/google";
+import { routes } from "@/lib/routes";
 
 const titanOne = Titan_One({
   style: "normal",
@@ -14,33 +15,6 @@ const titanOne = Titan_One({
 });
 
 const TOP_OFFSET = 20;
-
-const routes = [
-  {
-    name: "Home",
-    path: "/",
-  },
-  {
-    name: "Reviews",
-    path: "/reviews",
-  },
-  {
-    name: "Features",
-    path: "/features",
-  },
-  {
-    name: "Lists",
-    path: "/lists",
-  },
-  {
-    name: "The Pitch",
-    path: "/pitch",
-  },
-  {
-    name: "Best of 2023",
-    path: "/best",
-  },
-];
 
 export const Navbar = () => {
   const pathname = usePathname();
