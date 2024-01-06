@@ -3,10 +3,11 @@
 import { cn } from "@/lib/utils";
 import React, { useEffect, useState } from "react";
 import { Separator } from "./ui/separator";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Search } from "lucide-react";
 import { Titan_One } from "next/font/google";
 import { routes } from "@/lib/routes";
+import useSearchModal from "@/hooks/useSearchModal";
 
 const titanOne = Titan_One({
   style: "normal",
@@ -18,6 +19,9 @@ const TOP_OFFSET = 20;
 
 export const Navbar = () => {
   const pathname = usePathname();
+  const router = useRouter();
+
+  const { onOpen } = useSearchModal();
 
   const [scrollY, setScrollY] = useState(false);
 
@@ -71,7 +75,11 @@ export const Navbar = () => {
 
         <ul className="flex items-center justify-center">
           {routes.map((route) => (
-            <li key={route.name} className="px-4 cursor-pointer">
+            <li
+              onClick={() => router.push(route.path)}
+              key={route.name}
+              className="px-4 cursor-pointer"
+            >
               <p
                 className={cn(
                   "text-xs font-bold uppercase hover:text-white",
@@ -83,7 +91,7 @@ export const Navbar = () => {
             </li>
           ))}
         </ul>
-        <div>
+        <div onClick={onOpen}>
           <Search className="text-white" />
         </div>
       </div>

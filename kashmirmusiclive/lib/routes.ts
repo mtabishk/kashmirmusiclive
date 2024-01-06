@@ -4,8 +4,16 @@ export const routes = [
     path: "/",
   },
   {
+    name: "News",
+    path: "/news",
+  },
+  {
     name: "Reviews",
     path: "/reviews",
+  },
+  {
+    name: "Interviews",
+    path: "/interviews",
   },
   {
     name: "Features",
@@ -16,11 +24,11 @@ export const routes = [
     path: "/lists",
   },
   {
-    name: "The Pitch",
-    path: "/pitch",
+    name: "Podcast",
+    path: "/podcast ",
   },
   {
-    name: "Best of 2023",
-    path: "/best",
+    name: "About Us",
+    path: "/about-us",
   },
 ];

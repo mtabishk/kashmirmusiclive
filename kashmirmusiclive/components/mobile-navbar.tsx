@@ -13,7 +13,8 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { routes } from "@/lib/routes";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import useSearchModal from "@/hooks/useSearchModal";
 
 const titanOne = Titan_One({
   style: "normal",
@@ -23,6 +24,10 @@ const titanOne = Titan_One({
 
 export const MobileNavBar = () => {
   const pathname = usePathname();
+  const router = useRouter();
+
+  const { onOpen } = useSearchModal();
+
   return (
     <div className="md:hidden fixed top-0 left-0 w-full bg-black/90 h-[60px]">
       <div className="flex items-center justify-between px-4 py-4">
@@ -46,7 +51,11 @@ export const MobileNavBar = () => {
                 <SheetDescription>
                   <div className="flex flex-col items-start pt-10 space-y-4">
                     {routes.map((route) => (
-                      <div key={route.name} className="px-4 cursor-pointer">
+                      <div
+                        key={route.name}
+                        onClick={() => router.push(route.path)}
+                        className="px-4 cursor-pointer"
+                      >
                         <p
                           className={cn(
                             "text-sm font-bold uppercase hover:text-white",
@@ -68,7 +77,7 @@ export const MobileNavBar = () => {
         <h2 className={cn("text-xl font-bold text-white", titanOne.className)}>
           KML
         </h2>
-        <div>
+        <div onClick={onOpen}>
           <Search className="text-white" />
         </div>
       </div>

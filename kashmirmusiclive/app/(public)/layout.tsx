@@ -12,7 +12,9 @@ export default function PublicLayout({
     <>
       <Navbar />
       <MobileNavBar />
-      {children}
+      <div className="bg-white/90 pt-[84px] lg:pt-[184px] pb-[84px] min-h-screen">
+        {children}
+      </div>
       <Footer />
     </>
   );

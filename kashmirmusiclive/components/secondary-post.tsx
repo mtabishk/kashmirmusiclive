@@ -1,16 +1,16 @@
+import Image from "next/image";
 import React from "react";
 import { Separator } from "./ui/separator";
-import Image from "next/image";
 
-export const Post = () => {
+export const SecondaryPost = () => {
   return (
-    <div className="flex flex-col bg-white lg:flex-row group hover:cursor-pointer">
+    <div className="flex flex-col bg-white group hover:cursor-pointer">
       <Image
         src="https://media.pitchfork.com/photos/6596cb34b71ad418cd382e79/2:1/w_1920,c_limit/pitchfork-review-template.png"
         alt="Post Image"
         className="object-cover w-full"
-        height="100"
-        width="100"
+        height="200"
+        width="200"
       />
       <div className="flex flex-col items-center justify-center p-4 mx-8">
         <h1 className="text-2xl font-bold text-black">
