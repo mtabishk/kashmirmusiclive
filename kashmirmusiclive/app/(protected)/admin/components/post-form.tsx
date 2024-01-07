@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
@@ -24,6 +24,12 @@ import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import { Label } from "@/components/ui/label";
 import dynamic from "next/dynamic";
+import { AuthContext } from "@/providers/auth-context-provider";
+import { collection, doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { db, storage } from "@/firebase/firebase-config";
+import { v4 as uuidv4 } from "uuid";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { Progress } from "@/components/ui/progress";
 
 interface PostFormProps {
   initialData: any | null;
@@ -63,13 +69,14 @@ const categories = [
 export const PostForm = ({ initialData }: PostFormProps) => {
   const router = useRouter();
   const { toast } = useToast();
+  const auth = useContext(AuthContext);
 
   const Editor = useMemo(
     () => dynamic(() => import("./editor"), { ssr: false }),
     []
   );
 
-  const [isLoading, setisLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [title, setTitle] = useState<string>("");
   const [category, setCategory] = useState<string>("");
@@ -78,19 +85,82 @@ export const PostForm = ({ initialData }: PostFormProps) => {
   const [file, setFile] = useState<File>();
   const [content, setContent] = useState<string>("");
 
-  const handleImageUpload = async (file: File) => {
+  const [imageUploading, setImageUploading] = useState<boolean>(false);
+  const [imageUrl, setImageUrl] = useState<string>("");
+
+  const [progress, setProgress] = useState(0);
+
+  const handleImageUpload = async () => {
     if (file) {
-      // upload image
+      setImageUploading(true);
+      setProgress(13);
+      const fileName = uuidv4();
+      const storageRef = ref(storage, `/uploads/${fileName}`);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const percent = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+          setProgress(percent);
+        },
+        (err) => {
+          console.log(err);
+          toast({
+            variant: "destructive",
+            title: "Something went wrong",
+            duration: 1500,
+          });
+        },
+        async () => {
+          const downloadUrl = await getDownloadURL(uploadTask.snapshot.ref);
+          setImageUrl(downloadUrl);
+        }
+      );
+    } else {
+      setImageUploading(false);
+      toast({
+        variant: "destructive",
+        title: "Select a file first",
+        duration: 1500,
+      });
     }
   };
 
-  const onSubmit = async () => {
+  const onSubmit = async (e: any) => {
+    e.preventDefault();
+    e.persist();
     try {
-      console.log(title, category, author, date, file, content);
+      setIsLoading(true);
+      if (!title || !category || !author || !date || !file || !content) {
+        toast({
+          variant: "destructive",
+          title: "Please fill all fields",
+          duration: 1500,
+        });
+        return;
+      }
+
+      const data = {
+        title: title,
+        category: category,
+        author: author,
+        date: date,
+        imageUrl: imageUrl,
+        content: content,
+        published: false,
+        uid: auth?.currentUser?.uid,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+      };
+
       if (initialData) {
         // edit data (for update post)
       } else {
-        // create companion
+        // create data (for create post)
+        const newPostRef = doc(collection(db, "posts"));
+        await setDoc(newPostRef, data);
       }
 
       toast({
@@ -98,15 +168,16 @@ export const PostForm = ({ initialData }: PostFormProps) => {
         duration: 1500,
       });
 
-      // refresh all server components
-      // router.refresh();
-      // router.push("/admin/posts");
+      router.refresh();
+      router.push("/admin/posts");
     } catch (error) {
       toast({
         variant: "destructive",
         title: "Something went wrong",
         duration: 1500,
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -129,10 +200,17 @@ export const PostForm = ({ initialData }: PostFormProps) => {
           height={200}
           value={file}
           onChange={(file) => {
+            setImageUploading(false);
             setFile(file);
           }}
         />
-        <Button onClick={(file) => handleImageUpload}>Upload Image</Button>
+        {!imageUploading ? (
+          <Button disabled={isLoading} onClick={handleImageUpload}>
+            Upload Image
+          </Button>
+        ) : (
+          <Progress value={progress} className="w-[300px]" />
+        )}
       </div>
       <div className="grid grid-cols-1 gap-4 mx-4 mt-4 lg:mt-8 md:grid-cols-2">
         <div>
@@ -193,6 +271,7 @@ export const PostForm = ({ initialData }: PostFormProps) => {
                 id="date"
                 variant={"outline"}
                 className="w-full pl-3 mt-1 font-normal text-left hover:bg-background"
+                disabled={isLoading}
               >
                 {date ? format(date, "PPP") : <span>Pick a date</span>}
                 <CalendarIcon className="w-4 h-4 ml-auto opacity-50" />

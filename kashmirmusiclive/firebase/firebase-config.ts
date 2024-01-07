@@ -7,6 +7,7 @@ import {
   Firestore,
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
+import { getStorage } from "firebase/storage";
 
 interface FirebaseConfig {
   apiKey: string;
@@ -46,8 +47,11 @@ try {
   });
 }
 
+// Storage
+const storage = getStorage();
+
 // Analytics
 const analytics: Analytics | null =
   app.name && typeof window !== "undefined" ? getAnalytics(app) : null;
 
-export { app, auth, db, analytics };
+export { app, auth, db, storage, analytics };
