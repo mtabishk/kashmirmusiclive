@@ -1,6 +1,6 @@
 "use client";
 
-import { DashboardCard } from "@/app/(protected)/components/dashboard-card";
+import { DashboardCard } from "@/app/(protected)/admin/components/dashboard-card";
 import { AuthContext } from "@/providers/auth-context-provider";
 import { BadgeCheck } from "lucide-react";
 import { useContext, useEffect, useState } from "react";

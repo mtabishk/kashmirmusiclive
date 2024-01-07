@@ -2,7 +2,7 @@
 import { AuthContext } from "@/providers/auth-context-provider";
 import { useRouter } from "next/navigation";
 import React, { useContext, useEffect } from "react";
-import { NavMenu } from "../../components/navmenu";
+import { NavMenu } from "../components/navmenu";
 
 export default function ProtectedLayout({
   children,
@@ -23,7 +23,7 @@ export default function ProtectedLayout({
       {auth?.currentUser ? (
         <>
           <NavMenu />
-          <div className="mx-4 lg:mx-40">{children}</div>
+          <div className="pb-8 mx-4 lg:mx-40">{children}</div>
         </>
       ) : null}
     </div>

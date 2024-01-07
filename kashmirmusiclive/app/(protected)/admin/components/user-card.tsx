@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { BadgeCheck } from "lucide-react";
+import { BadgeCheck, Clock } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface UserCardProps {
@@ -15,6 +15,7 @@ interface UserCardProps {
   email: string;
   lastLogin: string;
   isVerified: boolean;
+  photoUrl: string;
 }
 
 export const UserCard = ({
@@ -22,6 +23,7 @@ export const UserCard = ({
   email,
   lastLogin,
   isVerified,
+  photoUrl,
 }: UserCardProps) => {
   return (
     <Card>
@@ -29,7 +31,7 @@ export const UserCard = ({
         <CardTitle>
           <div className="flex items-center space-x-4">
             <Avatar>
-              <AvatarImage src="/logo.jpg" />
+              <AvatarImage src={photoUrl} />
               <AvatarFallback>{name.charAt(0).toUpperCase()}</AvatarFallback>
             </Avatar>
             <div>
@@ -44,7 +46,9 @@ export const UserCard = ({
           </div>
         </CardTitle>
       </CardHeader>
-      <CardFooter>Last Login: {lastLogin}</CardFooter>
+      <CardFooter>
+        <Clock className="w-4 h-4 mr-2" /> Last Login: {lastLogin} ago
+      </CardFooter>
     </Card>
   );
 };
