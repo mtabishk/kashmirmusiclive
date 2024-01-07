@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AuthContextProvider } from "@/providers/auth-context-provider";
 import { ModalProvider } from "@/providers/modal-provider";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -42,6 +43,7 @@ export default function RootLayout({
           >
             <ModalProvider />
             {children}
+            <Toaster />
           </ThemeProvider>
         </AuthContextProvider>
       </body>

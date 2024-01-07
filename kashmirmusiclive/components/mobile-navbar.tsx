@@ -22,7 +22,7 @@ const titanOne = Titan_One({
   subsets: ["latin"],
 });
 
-export const MobileNavBar = () => {
+export const MobileNavbar = () => {
   const pathname = usePathname();
   const router = useRouter();
 
