@@ -220,7 +220,7 @@ export const PostForm = ({ initialData }: PostFormProps) => {
       await updateDoc(updatePostRef, data);
 
       toast({
-        title: "Post in published.",
+        title: "Post is published.",
         duration: 1500,
       });
 
@@ -241,7 +241,7 @@ export const PostForm = ({ initialData }: PostFormProps) => {
       await updateDoc(updatePostRef, data);
 
       toast({
-        title: "Post in unpublished.",
+        title: "Post is unpublished.",
         duration: 1500,
       });
 

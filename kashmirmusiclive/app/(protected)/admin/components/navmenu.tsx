@@ -21,6 +21,10 @@ const routes = [
     name: "Users",
     path: "/admin/users",
   },
+  {
+    name: "About Us",
+    path: "/admin/about-us",
+  },
 ];
 
 export const NavMenu = () => {
