@@ -40,7 +40,8 @@ const Editor = ({ onChange, initialContent, editable, theme }: EditorProps) => {
   const editor: BlockNoteEditor = useBlockNote({
     editable,
     initialContent: initialContent
-      ? (JSON.parse(initialContent) as PartialBlock[])
+      ? //@ts-expect-error
+        (JSON.parse(initialContent) as PartialBlock[])
       : undefined,
     onEditorContentChange: (editor) => {
       console.log("Editor Content Changed:", editor.topLevelBlocks);
