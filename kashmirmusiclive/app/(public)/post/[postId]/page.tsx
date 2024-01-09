@@ -62,7 +62,7 @@ const PostPage = ({ params }: PostPageProps) => {
   }
 
   return (
-    <div className="w-full overflow-hidden h-80vh">
+    <div className="w-full overflow-hidden bg-white h-80vh">
       <Image
         src={post.imageUrl}
         alt="Post Image"

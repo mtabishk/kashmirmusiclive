@@ -76,7 +76,7 @@ export default function Home() {
     <>
       <div className="flex items-center justify-center lg:py-10">
         <h1 className="text-lg font-semibold uppercase text-black/80">
-          Most Recents
+          Latest
         </h1>
       </div>
       <div className="grid grid-cols-1 gap-4 mx-2 space-y-4 lg:mx-40 lg:grid-cols-3">

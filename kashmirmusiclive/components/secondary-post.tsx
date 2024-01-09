@@ -24,7 +24,7 @@ export const SecondaryPost = ({
   return (
     <div
       onClick={onClick}
-      className="flex flex-col items-center justify-center bg-white group hover:cursor-pointer"
+      className="flex flex-col items-center justify-center bg-gray-50 group hover:cursor-pointer"
     >
       <div className="w-full h-[200px] relative overflow-hidden">
         <Image

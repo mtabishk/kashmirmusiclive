@@ -23,13 +23,13 @@ export const SearchModal = () => {
   return (
     <Dialog.Root open={isOpen} defaultOpen={isOpen} onOpenChange={onChange}>
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 bg-neutral-900/90 backdrop-blur-sm" />
+        <Dialog.Overlay className="fixed inset-0 bg-red-900/20 backdrop-blur-sm" />
         <Dialog.Content
           className="
               fixed
               drop-shadow-md
               border
-              border-black/20
+              border-red-700/20
               top-[50%]
               left-[50%]
               max-h-full
@@ -41,7 +41,7 @@ export const SearchModal = () => {
               md:max-w-[450px]
               translate-x-[-50%]
               translate-y-[-50%]
-              bg-black/90
+              bg-red-700
               p-[25px]
               focus:outline-none
           "
@@ -51,14 +51,15 @@ export const SearchModal = () => {
           </Dialog.Title>
           <div>
             <div className="flex flex-row items-center justify-end space-x-4">
-              <Input className="flex-grow" placeholder="Type to search" />
-              <Button onClick={handleOnClick}>
+              <Input
+                className="flex-grow text-black bg-white border-none outine-white"
+                placeholder="Type to search"
+              />
+              <Button type="submit" onClick={handleOnClick}>
                 <Search />
               </Button>
             </div>
-            <h2 className="mt-4 text-sm text-center text-muted-foreground">
-              No recent searches
-            </h2>
+            <h2 className="mt-4 text-sm text-center">No recent searches</h2>
           </div>
           <Dialog.Close asChild>
             <button

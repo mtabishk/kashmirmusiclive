@@ -1,3 +1,4 @@
+import { Separator } from "@radix-ui/react-separator";
 import { format } from "date-fns";
 import { Timestamp } from "firebase/firestore";
 import Image from "next/image";
@@ -23,7 +24,7 @@ export const MainPost = ({
   return (
     <div
       onClick={onClick}
-      className="flex flex-row bg-white hover:cursor-pointer"
+      className="flex flex-row bg-gray-50 hover:cursor-pointer group"
     >
       <div className="h-[300px] w-[50%] relative overflow-hidden">
         <Image
@@ -35,9 +36,9 @@ export const MainPost = ({
       </div>
       <div className="flex flex-col justify-between p-4 mx-8 w-[50%]">
         <h1 className="text-4xl font-bold text-black">
-          {title.length > 120 ? (
+          {title.length > 110 ? (
             <span>
-              {`${title.slice(0, 120)} `}
+              {`${title.slice(0, 110)} `}
               <span className="text-xs text-muted-foreground">read more</span>
             </span>
           ) : (
@@ -56,6 +57,7 @@ export const MainPost = ({
             {format(date?.seconds * 1000, "PPP")}
           </span>
         </h1>
+        <Separator className="w-full h-[1px] bg-black my-4 group-hover:bg-red-500" />
       </div>
     </div>
   );

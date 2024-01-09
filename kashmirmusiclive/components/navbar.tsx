@@ -45,7 +45,7 @@ export const Navbar = () => {
 
   return (
     <nav
-      className={`fixed z-[99999] top-0 left-0 w-full flex-col items-center justify-center transition-all ease-in-out duration-150 bg-black/90 hidden md:block`}
+      className={`fixed bg-red-700 z-[9999] top-0 left-0 w-full flex-col items-center justify-center transition-all ease-in-out duration-150 bg-black/90 hidden md:block`}
       style={{ height: navbarHeight }}
     >
       {!scrollY && (
@@ -56,22 +56,24 @@ export const Navbar = () => {
               titanOne.className
             )}
           >
-            Kashmir Music Live
+            Kashmir Music <span className="text-black">Live</span>
           </h2>
-          <Separator />
+          <Separator className="bg-red-500/30" />
         </>
       )}
 
       <div className="flex items-center justify-between px-8 py-4">
-        <h2
-          className={cn(
-            "text-xl font-bold text-white",
-            titanOne.className,
-            scrollY ? "opacity-100" : "opacity-0"
-          )}
-        >
-          KML
-        </h2>
+        <div className="cursor-pointer" onClick={() => router.push("/")}>
+          <h2
+            className={cn(
+              "text-xl font-bold text-white",
+              titanOne.className,
+              scrollY ? "opacity-100" : "opacity-0"
+            )}
+          >
+            KM<span className="text-black">Live</span>
+          </h2>
+        </div>
 
         <ul className="flex items-center justify-center">
           {routes.map((route) => (

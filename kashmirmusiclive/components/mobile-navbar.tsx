@@ -29,24 +29,26 @@ export const MobileNavbar = () => {
   const { onOpen } = useSearchModal();
 
   return (
-    <div className="md:hidden fixed top-0 left-0 w-full bg-black/90 h-[60px] z-[99999]">
+    <div className="md:hidden fixed bg-red-700 top-0 left-0 w-full bg-black/90 h-[60px] z-[9999]">
       <div className="flex items-center justify-between px-4 py-4">
         <div>
           <Sheet>
             <SheetTrigger>
               <AlignJustify className="text-white" />
             </SheetTrigger>
-            <SheetContent side="left">
+            <SheetContent side="left" className="bg-red-700">
               <SheetHeader>
                 <SheetTitle>
-                  <h2
-                    className={cn(
-                      " text-center py-8 text-4xl font-bold text-white",
-                      titanOne.className
-                    )}
-                  >
-                    Kashmir Music Live
-                  </h2>
+                  <div onClick={() => router.push("/")}>
+                    <h2
+                      className={cn(
+                        " text-center py-8 text-4xl font-bold text-white",
+                        titanOne.className
+                      )}
+                    >
+                      Kashmir Music <span className="text-black">Live</span>
+                    </h2>
+                  </div>
                 </SheetTitle>
                 <SheetDescription>
                   <div className="flex flex-col items-start pt-10 space-y-4">
@@ -75,7 +77,7 @@ export const MobileNavbar = () => {
           </Sheet>
         </div>
         <h2 className={cn("text-xl font-bold text-white", titanOne.className)}>
-          KML
+          KM<span className="text-black">Live</span>
         </h2>
         <div onClick={onOpen}>
           <Search className="text-white" />
