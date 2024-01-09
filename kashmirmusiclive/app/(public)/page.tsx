@@ -14,8 +14,11 @@ import {
 } from "firebase/firestore";
 import { db } from "@/firebase/firebase-config";
 import { Spinner } from "@/components/spinner";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
+
   const [posts, setPosts] = useState<CompletePost[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -84,6 +87,7 @@ export default function Home() {
             imageUrl={firstPost.imageUrl}
             author={firstPost.author}
             date={firstPost.date}
+            onClick={() => router.push(`/post/${firstPost.id}`)}
           />
         </div>
 
@@ -95,6 +99,7 @@ export default function Home() {
               imageUrl={post.imageUrl}
               author={post.author}
               date={post.date}
+              onClick={() => router.push(`/post/${post.id}`)}
             />
           </div>
         ))}
@@ -108,6 +113,7 @@ export default function Home() {
                 imageUrl={post.imageUrl}
                 author={post.author}
                 date={post.date}
+                onClick={() => router.push(`/post/${post.id}`)}
               />
             </div>
           ))}

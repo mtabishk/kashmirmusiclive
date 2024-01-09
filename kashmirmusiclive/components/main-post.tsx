@@ -9,6 +9,7 @@ interface MainPostProps {
   imageUrl: string;
   author: string;
   date: Timestamp;
+  onClick?: () => void;
 }
 
 export const MainPost = ({
@@ -17,9 +18,13 @@ export const MainPost = ({
   imageUrl,
   author,
   date,
+  onClick,
 }: MainPostProps) => {
   return (
-    <div className="flex flex-row bg-white hover:cursor-pointer">
+    <div
+      onClick={onClick}
+      className="flex flex-row bg-white hover:cursor-pointer"
+    >
       <div className="h-[300px] w-[50%] relative overflow-hidden">
         <Image
           src={imageUrl}

@@ -10,6 +10,7 @@ interface SecondaryPostProps {
   imageUrl: string;
   author: string;
   date: Timestamp;
+  onClick?: () => void;
 }
 
 export const SecondaryPost = ({
@@ -18,9 +19,13 @@ export const SecondaryPost = ({
   imageUrl,
   author,
   date,
+  onClick,
 }: SecondaryPostProps) => {
   return (
-    <div className="flex flex-col items-center justify-center bg-white group hover:cursor-pointer">
+    <div
+      onClick={onClick}
+      className="flex flex-col items-center justify-center bg-white group hover:cursor-pointer"
+    >
       <div className="w-full h-[200px] relative overflow-hidden">
         <Image
           src={imageUrl}

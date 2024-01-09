@@ -59,7 +59,9 @@ const PostsPage = () => {
       <div className="flex flex-row items-center justify-between pt-4">
         <h1 className="font-semibold text-muted-foreground">
           Total Posts:{" "}
-          <span className="text-xl font-bold text-white/90">12</span>
+          <span className="text-xl font-bold text-white/90">
+            {posts.length}
+          </span>
         </h1>
         <Button onClick={handleOnCreate}>
           <Plus className="w-4 h-4 mr-2" />
