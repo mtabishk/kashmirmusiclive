@@ -1,28 +1,55 @@
+import { format } from "date-fns";
+import { Timestamp } from "firebase/firestore";
 import Image from "next/image";
 import React from "react";
 
-export const MainPost = () => {
+interface MainPostProps {
+  title: string;
+  category: string;
+  imageUrl: string;
+  author: string;
+  date: Timestamp;
+}
+
+export const MainPost = ({
+  title,
+  category,
+  imageUrl,
+  author,
+  date,
+}: MainPostProps) => {
   return (
     <div className="flex flex-row bg-white hover:cursor-pointer">
-      <Image
-        src="https://media.pitchfork.com/photos/6596cb34b71ad418cd382e79/2:1/w_1920,c_limit/pitchfork-review-template.png"
-        alt="Post Image"
-        className="object-cover"
-        height="600"
-        width="600"
-      />
-      <div className="flex flex-col p-4 mx-8">
+      <div className="h-[300px] w-[50%] relative overflow-hidden">
+        <Image
+          src={imageUrl}
+          alt="Post Image"
+          layout="fill"
+          objectFit="cover"
+        />
+      </div>
+      <div className="flex flex-col justify-between p-4 mx-8 w-[50%]">
         <h1 className="text-4xl font-bold text-black">
-          Jeff Tweedy on Rock Criticism, the Pitfalls of Music Snobbery, and His
-          New Book
+          {title.length > 120 ? (
+            <span>
+              {`${title.slice(0, 120)} `}
+              <span className="text-xs text-muted-foreground">read more</span>
+            </span>
+          ) : (
+            title
+          )}
         </h1>
-        <h1 className="pt-4 text-sm font-semibold text-black">
-          The musician and author discusses World Within a Song, in which he
-          writes about 50 songs that rearranged his brain, Wilco’s new album,
-          and more.
-        </h1>
+        <div className="mt-2">
+          <h1 className="font-semibold uppercase text-md text-muted-foreground text-start">
+            {category}
+          </h1>
+        </div>
+
         <h1 className="pt-4 text-xs font-semibold text-black">
-          BY: PITCHFORK / <span className="text-black/70">AN HOUR AGO </span>
+          BY: {author?.toUpperCase()} /{" "}
+          <span className="text-black/70">
+            {format(date?.seconds * 1000, "PPP")}
+          </span>
         </h1>
       </div>
     </div>

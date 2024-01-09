@@ -45,7 +45,7 @@ export const Navbar = () => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 w-full flex-col items-center justify-center transition-all ease-in-out duration-150 bg-black/90 hidden md:block`}
+      className={`fixed z-[99999] top-0 left-0 w-full flex-col items-center justify-center transition-all ease-in-out duration-150 bg-black/90 hidden md:block`}
       style={{ height: navbarHeight }}
     >
       {!scrollY && (

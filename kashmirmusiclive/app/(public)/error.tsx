@@ -1,0 +1,22 @@
+"use client";
+
+import Image from "next/image";
+import Link from "next/link";
+
+import { Button } from "@/components/ui/button";
+
+const Error = () => {
+  return (
+    <div className="flex flex-col items-center justify-center h-screen space-y-4">
+      <Image src="/error.png" height="300" width="300" alt="Error" />
+      <h2 className="text-xl font-medium text-black/90">
+        Something went wrong!
+      </h2>
+      <Button variant="outline" asChild>
+        <Link href="/">Go back</Link>
+      </Button>
+    </div>
+  );
+};
+
+export default Error;

@@ -170,7 +170,7 @@ export const PostForm = ({ initialData }: PostFormProps) => {
         date: date,
         imageUrl: imageUrl,
         content: content,
-        published: false,
+        published: initialData?.published || false,
         uid: auth?.currentUser?.uid,
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),

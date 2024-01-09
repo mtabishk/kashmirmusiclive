@@ -4,7 +4,6 @@ import {
   CompletePost,
   PostForm,
 } from "@/app/(protected)/admin/components/post-form";
-import { Post } from "@/components/post-table";
 import { Spinner } from "@/components/spinner";
 import { db } from "@/firebase/firebase-config";
 import { doc, getDoc } from "firebase/firestore";

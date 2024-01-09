@@ -45,7 +45,11 @@ export function PostTable({ posts }: PostTableProps) {
             key={post.title}
             onClick={() => router.push(`/admin/posts/${post.id}`)}
           >
-            <TableCell className="font-medium">{post.title}</TableCell>
+            <TableCell className="font-medium">
+              {post.title.length > 50
+                ? `${post.title.slice(0, 50)}...`
+                : post.title}
+            </TableCell>
             <TableCell>{post.category.toUpperCase()}</TableCell>
             <TableCell>{format(post.date.seconds * 1000, "PPP")}</TableCell>
             <TableCell>{post.published.toString()}</TableCell>

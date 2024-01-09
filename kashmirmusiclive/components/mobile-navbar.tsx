@@ -29,7 +29,7 @@ export const MobileNavbar = () => {
   const { onOpen } = useSearchModal();
 
   return (
-    <div className="md:hidden fixed top-0 left-0 w-full bg-black/90 h-[60px]">
+    <div className="md:hidden fixed top-0 left-0 w-full bg-black/90 h-[60px] z-[99999]">
       <div className="flex items-center justify-between px-4 py-4">
         <div>
           <Sheet>
