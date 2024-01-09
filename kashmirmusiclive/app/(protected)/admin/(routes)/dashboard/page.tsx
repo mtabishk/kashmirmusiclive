@@ -1,7 +1,15 @@
 "use client";
 
 import { DashboardCard } from "@/app/(protected)/admin/components/dashboard-card";
+import { Spinner } from "@/components/spinner";
+import { db } from "@/firebase/firebase-config";
 import { AuthContext } from "@/providers/auth-context-provider";
+import {
+  collection,
+  getCountFromServer,
+  query,
+  where,
+} from "firebase/firestore";
 import { BadgeCheck } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 
@@ -11,10 +19,59 @@ const DashboardPage = () => {
   const [email, setEmail] = useState<string | null | undefined>(undefined);
   const [isVerified, setIsVerified] = useState<boolean | undefined>(undefined);
 
+  const [numUsers, setNumUsers] = useState(0);
+  const [numPosts, setNumPosts] = useState(0);
+  const [numPublishedPosts, setNumPublishedPosts] = useState(0);
+  const [numUnpublishedPosts, setNumUnpublishedPosts] = useState(0);
+
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     setEmail(auth?.currentUser?.email);
     setIsVerified(auth?.currentUser?.emailVerified);
   }, [auth, auth?.currentUser, isVerified]);
+
+  useEffect(() => {
+    const getDashboardData = async () => {
+      try {
+        setIsLoading(true);
+
+        const usersCollection = collection(db, "users");
+        const postsCollection = collection(db, "posts");
+        const publishedPostQuery = query(
+          collection(db, "posts"),
+          where("published", "==", true)
+        );
+        const unpublishedPostQuery = query(
+          collection(db, "posts"),
+          where("published", "==", false)
+        );
+
+        const [
+          usersSnapshot,
+          postsSnapshot,
+          publishedPostSnapshot,
+          unpublishedPostSnapshot,
+        ] = await Promise.all([
+          getCountFromServer(usersCollection),
+          getCountFromServer(postsCollection),
+          getCountFromServer(publishedPostQuery),
+          getCountFromServer(unpublishedPostQuery),
+        ]);
+
+        setNumUsers(usersSnapshot.data().count);
+        setNumPosts(postsSnapshot.data().count);
+        setNumPublishedPosts(publishedPostSnapshot.data().count);
+        setNumUnpublishedPosts(unpublishedPostSnapshot.data().count);
+      } catch (error) {
+        console.error("Error fetching dashboard data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    getDashboardData();
+  }, []);
 
   const [isMounted, setIsMounted] = useState(false);
 
@@ -24,6 +81,16 @@ const DashboardPage = () => {
   }, []);
 
   if (!isMounted) return null;
+
+  if (isLoading) {
+    return (
+      <>
+        <div className="flex items-center justify-center pt-8">
+          <Spinner size="lg" />
+        </div>
+      </>
+    );
+  }
 
   return (
     <div>
@@ -39,17 +106,25 @@ const DashboardPage = () => {
         ) : null}
       </div>
       <div className="grid grid-cols-1 gap-4 py-4 lg:grid-cols-2">
-        <DashboardCard title="Users" description="Manage users" count={2} />
-        <DashboardCard title="Posts" description="Total posts" count={12} />
+        <DashboardCard
+          title="Users"
+          description="Manage users"
+          count={numUsers}
+        />
+        <DashboardCard
+          title="Posts"
+          description="Total posts"
+          count={numPosts}
+        />
         <DashboardCard
           title="Published"
           description="Total published posts "
-          count={10}
+          count={numPublishedPosts}
         />
         <DashboardCard
           title="Not Published"
           description="Total not published posts "
-          count={2}
+          count={numUnpublishedPosts}
         />
       </div>
     </div>

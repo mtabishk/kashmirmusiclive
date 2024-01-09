@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
@@ -19,20 +19,41 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { CalendarIcon, ChevronLeft } from "lucide-react";
+import { CalendarIcon, ChevronLeft, Trash } from "lucide-react";
 import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import { Label } from "@/components/ui/label";
 import dynamic from "next/dynamic";
 import { AuthContext } from "@/providers/auth-context-provider";
-import { collection, doc, serverTimestamp, setDoc } from "firebase/firestore";
+import {
+  Timestamp,
+  collection,
+  doc,
+  serverTimestamp,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { db, storage } from "@/firebase/firebase-config";
 import { v4 as uuidv4 } from "uuid";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { Progress } from "@/components/ui/progress";
 
+export type CompletePost = {
+  id: string;
+  author: string;
+  category: string;
+  content: string;
+  createdAt: Timestamp;
+  date: Timestamp;
+  imageUrl: string;
+  published: boolean;
+  title: string;
+  uid: string;
+  updatedAt: string;
+};
+
 interface PostFormProps {
-  initialData: any | null;
+  initialData: CompletePost | null;
 }
 
 const categories = [
@@ -72,7 +93,7 @@ export const PostForm = ({ initialData }: PostFormProps) => {
   const auth = useContext(AuthContext);
 
   const Editor = useMemo(
-    () => dynamic(() => import("./editor"), { ssr: false }),
+    () => dynamic(() => import("@/components/editor"), { ssr: false }),
     []
   );
 
@@ -83,7 +104,7 @@ export const PostForm = ({ initialData }: PostFormProps) => {
   const [author, setAuthor] = useState<string>("");
   const [date, setDate] = useState<Date>();
   const [file, setFile] = useState<File>();
-  const [content, setContent] = useState<string>("");
+  const [content, setContent] = useState<string>();
 
   const [imageUploading, setImageUploading] = useState<boolean>(false);
   const [imageUrl, setImageUrl] = useState<string>("");
@@ -133,7 +154,7 @@ export const PostForm = ({ initialData }: PostFormProps) => {
     e.persist();
     try {
       setIsLoading(true);
-      if (!title || !category || !author || !date || !file || !content) {
+      if (!title || !category || !author || !date || !content || !imageUrl) {
         toast({
           variant: "destructive",
           title: "Please fill all fields",
@@ -157,6 +178,8 @@ export const PostForm = ({ initialData }: PostFormProps) => {
 
       if (initialData) {
         // edit data (for update post)
+        const updatePostRef = doc(db, "posts", initialData.id);
+        await updateDoc(updatePostRef, data);
       } else {
         // create data (for create post)
         const newPostRef = doc(collection(db, "posts"));
@@ -171,6 +194,7 @@ export const PostForm = ({ initialData }: PostFormProps) => {
       router.refresh();
       router.push("/admin/posts");
     } catch (error) {
+      console.log(error);
       toast({
         variant: "destructive",
         title: "Something went wrong",
@@ -180,6 +204,63 @@ export const PostForm = ({ initialData }: PostFormProps) => {
       setIsLoading(false);
     }
   };
+
+  const onDelete = async () => {};
+
+  const onPublish = async (e: any) => {
+    e.preventDefault();
+    e.persist();
+
+    if (initialData) {
+      const updatePostRef = doc(db, "posts", initialData.id);
+      const data = {
+        published: true,
+        updatedAt: serverTimestamp(),
+      };
+      await updateDoc(updatePostRef, data);
+
+      toast({
+        title: "Post in published.",
+        duration: 1500,
+      });
+
+      router.push(`/admin/posts`);
+    }
+  };
+
+  const onUnpublish = async (e: any) => {
+    e.preventDefault();
+    e.persist();
+
+    if (initialData) {
+      const updatePostRef = doc(db, "posts", initialData.id);
+      const data = {
+        published: false,
+        updatedAt: serverTimestamp(),
+      };
+      await updateDoc(updatePostRef, data);
+
+      toast({
+        title: "Post in unpublished.",
+        duration: 1500,
+      });
+
+      router.push(`/admin/posts`);
+    }
+  };
+
+  useEffect(() => {
+    if (initialData) {
+      setTitle(initialData.title);
+      setCategory(initialData.category);
+      setAuthor(initialData.author);
+      setDate(new Date(initialData.date.seconds * 1000));
+      setImageUrl(initialData.imageUrl);
+      setContent(initialData.content);
+    }
+  }, [initialData]);
+
+  const editorKey = initialData ? `editor-${initialData.id}` : "editor";
 
   const heading = initialData ? "Edit Post" : "Create Post";
   const buttonText = initialData ? "Update" : "Create";
@@ -191,17 +272,32 @@ export const PostForm = ({ initialData }: PostFormProps) => {
           <ChevronLeft />
         </Button>
         <h3 className="text-lg font-bold text-center">{heading}</h3>
-        <Button onClick={onSubmit}>{buttonText}</Button>
+        <div className="flex items-center justify-center space-x-2">
+          {initialData && (
+            <>
+              <Button onClick={onDelete} variant="destructive">
+                <Trash className="w-5 h-5" />
+              </Button>
+              {initialData.published ? (
+                <Button onClick={onUnpublish}>UnPublish</Button>
+              ) : (
+                <Button onClick={onPublish}>Publish</Button>
+              )}
+            </>
+          )}
+          <Button onClick={onSubmit}>{buttonText}</Button>
+        </div>
       </div>
       <Separator className="bg-primary/10" />
       <div className="flex flex-col items-center justify-center w-full mt-4 space-y-2">
         <SingleImageDropzone
           width={300}
           height={200}
-          value={file}
+          value={file || imageUrl}
           onChange={(file) => {
             setImageUploading(false);
             setFile(file);
+            setImageUrl("");
           }}
         />
         {!imageUploading ? (
@@ -232,6 +328,7 @@ export const PostForm = ({ initialData }: PostFormProps) => {
             Category
           </Label>
           <Select
+            value={category}
             onValueChange={(value) => setCategory(value)}
             disabled={isLoading}
           >
@@ -295,10 +392,12 @@ export const PostForm = ({ initialData }: PostFormProps) => {
         <Label htmlFor="title" className="ml-4 ">
           Content
         </Label>
+
         <Editor
+          key={editorKey}
+          initialContent={initialData?.content || content}
           onChange={(value) => setContent(value)}
-          initialContent={content}
-          theme="dark"
+          theme="light"
         />
       </div>
     </div>

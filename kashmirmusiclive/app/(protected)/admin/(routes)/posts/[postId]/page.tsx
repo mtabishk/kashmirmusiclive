@@ -1,5 +1,14 @@
-import { PostForm } from "@/app/(protected)/admin/components/post-form";
-import React from "react";
+"use client";
+
+import {
+  CompletePost,
+  PostForm,
+} from "@/app/(protected)/admin/components/post-form";
+import { Post } from "@/components/post-table";
+import { Spinner } from "@/components/spinner";
+import { db } from "@/firebase/firebase-config";
+import { doc, getDoc } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
 
 interface PostIdPageProps {
   params: {
@@ -8,9 +17,54 @@ interface PostIdPageProps {
 }
 
 const PostIdPage = ({ params }: PostIdPageProps) => {
-  // fetch the post with the given id
-  // return the post details or null if no post found
-  let post = null;
+  const postId = params.postId;
+  const [post, setPost] = useState<CompletePost | null>(null);
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  const fetchPost = async () => {
+    const docRef = doc(db, "posts", postId);
+    const docSnap = await getDoc(docRef);
+    if (!docSnap.exists()) {
+      return null;
+    }
+    const fetchedPost: CompletePost = {
+      id: docSnap.id,
+      author: docSnap.data().author,
+      category: docSnap.data().category,
+      content: docSnap.data().content,
+      createdAt: docSnap.data().createdAt,
+      date: docSnap.data().date,
+      imageUrl: docSnap.data().imageUrl,
+      published: docSnap.data().published,
+      title: docSnap.data().title,
+      uid: docSnap.data().uid,
+      updatedAt: docSnap.data().updatedAt,
+    };
+    setPost(fetchedPost);
+  };
+
+  useEffect(() => {
+    if (postId === "new") {
+      setPost(null);
+      return;
+    } else {
+      fetchPost();
+    }
+    setIsLoading(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [postId]);
+
+  if (isLoading) {
+    return (
+      <>
+        <div className="flex items-center justify-center pt-8">
+          <Spinner size="lg" />
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       <PostForm initialData={post} />
