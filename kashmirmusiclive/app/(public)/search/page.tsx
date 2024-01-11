@@ -9,9 +9,7 @@ const SearchPage = () => {
         <span className="font-bold text-black/80">{`"dddd"`}</span>
       </div>
       <div className="flex flex-col mx-4 space-y-10 lg:mx-80">
-        <Post />
-        <Post />
-        <Post />
+        <h1>ok</h1>
       </div>
     </div>
   );

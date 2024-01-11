@@ -28,6 +28,7 @@ import { AuthContext } from "@/providers/auth-context-provider";
 import {
   Timestamp,
   collection,
+  deleteDoc,
   doc,
   serverTimestamp,
   setDoc,
@@ -205,7 +206,22 @@ export const PostForm = ({ initialData }: PostFormProps) => {
     }
   };
 
-  const onDelete = async () => {};
+  const onDelete = async (e: any) => {
+    e.preventDefault();
+    e.persist();
+
+    if (initialData) {
+      const deletePostRef = doc(db, "posts", initialData.id);
+      await deleteDoc(deletePostRef);
+
+      toast({
+        title: "Post is deleted.",
+        duration: 1500,
+      });
+
+      router.push(`/admin/posts`);
+    }
+  };
 
   const onPublish = async (e: any) => {
     e.preventDefault();

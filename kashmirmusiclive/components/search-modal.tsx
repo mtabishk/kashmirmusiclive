@@ -50,15 +50,17 @@ export const SearchModal = () => {
             Search
           </Dialog.Title>
           <div>
-            <div className="flex flex-row items-center justify-end space-x-4">
-              <Input
-                className="flex-grow text-black bg-white border-none outine-white"
-                placeholder="Type to search"
-              />
-              <Button type="submit" onClick={handleOnClick}>
-                <Search />
-              </Button>
-            </div>
+            <form onSubmit={handleOnClick}>
+              <div className="flex flex-row items-center justify-end space-x-4">
+                <Input
+                  className="flex-grow text-black bg-white border-none outine-white"
+                  placeholder="Type to search"
+                />
+                <Button type="submit">
+                  <Search />
+                </Button>
+              </div>
+            </form>
             <h2 className="mt-4 text-sm text-center">No recent searches</h2>
           </div>
           <Dialog.Close asChild>

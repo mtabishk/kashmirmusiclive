@@ -3,6 +3,7 @@ import { Separator } from "./ui/separator";
 import Image from "next/image";
 import { Timestamp } from "firebase/firestore";
 import { format } from "date-fns";
+import { useRouter } from "next/navigation";
 
 interface PostProps {
   title: string;
@@ -22,8 +23,11 @@ export const Post = ({
   onClick,
 }: PostProps) => {
   return (
-    <div className="flex flex-col bg-white lg:flex-row group hover:cursor-pointer">
-      <div className="h-[300px] w-[50%] relative overflow-hidden">
+    <div
+      onClick={onClick}
+      className="h-[150px] lg:h-[250px] flex flex-col bg-gray-50 lg:flex-row group hover:cursor-pointer"
+    >
+      <div className="h-[150px] lg:h-[250px] lg:w-[50%] relative overflow-hidden">
         <Image
           src={imageUrl}
           alt="Post Image"
@@ -31,7 +35,7 @@ export const Post = ({
           objectFit="cover"
         />
       </div>
-      <div className="flex flex-col items-center justify-center p-4 mx-8">
+      <div className="flex flex-col items-center justify-center p-4 lg:mx-8">
         <h1 className="mt-4 text-2xl font-bold text-black">
           {title.length > 60 ? (
             <span>

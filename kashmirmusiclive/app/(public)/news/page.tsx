@@ -1,10 +1,10 @@
 "use client";
 
 import { CompletePost } from "@/app/(protected)/admin/components/post-form";
+import getPosts from "@/app/actions/getPosts";
 import { Post } from "@/components/post";
 import { Spinner } from "@/components/spinner";
-import { db } from "@/firebase/firebase-config";
-import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
+import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -16,35 +16,17 @@ const NewsPage = () => {
 
   const fetchPosts = async () => {
     try {
-      const q = query(
-        collection(db, "posts"),
-        where("category", "==", "news"),
-        where("published", "==", true),
-        orderBy("updatedAt", "desc")
-      );
-      const querySnapshot = await getDocs(q);
-
-      const fetchedPosts: CompletePost[] = [];
-
-      querySnapshot.forEach((doc) => {
-        fetchedPosts.push({
-          id: doc.id,
-          author: doc.data().author,
-          category: doc.data().category,
-          content: doc.data().content,
-          createdAt: doc.data().createdAt,
-          date: doc.data().date,
-          imageUrl: doc.data().imageUrl,
-          published: doc.data().published,
-          title: doc.data().title,
-          uid: doc.data().uid,
-          updatedAt: doc.data().updatedAt,
-        });
-      });
-      setPosts(fetchedPosts);
-      setIsLoading(false);
+      const fetchedPosts: CompletePost[] | null = await getPosts("news");
+      if (fetchedPosts) {
+        setPosts(fetchedPosts);
+        setIsLoading(false);
+      }
     } catch (error) {
-      console.log(error);
+      toast({
+        variant: "destructive",
+        title: "Something went wrong",
+        duration: 1500,
+      });
     }
   };
 
@@ -66,9 +48,14 @@ const NewsPage = () => {
     <>
       <div className="flex items-center justify-center lg:py-10">
         <h1 className="pb-4 text-lg font-semibold uppercase text-black/80">
-          Latest
+          Latest in News
         </h1>
       </div>
+      {posts.length === 0 && (
+        <div className="font-semibold text-center text-muted-foreground">
+          Looks like there are no posts here.
+        </div>
+      )}
       <div className="grid grid-cols-1 gap-4 mx-2 space-y-4 lg:mx-40">
         {posts.map((post) => (
           <div key={post.id} className="col-span-1">
