@@ -1,13 +1,18 @@
+"use client";
+
 import useSearchModal from "@/hooks/useSearchModal";
 import * as Dialog from "@radix-ui/react-dialog";
 import { Search, X } from "lucide-react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export const SearchModal = () => {
   const router = useRouter();
   const { onClose, isOpen } = useSearchModal();
+
+  const [search, setSearch] = useState("");
 
   const onChange = (open: boolean) => {
     if (!open) {
@@ -17,7 +22,7 @@ export const SearchModal = () => {
 
   const handleOnClick = () => {
     onClose();
-    router.push("/search");
+    router.push(`/search?q=${search}`);
   };
 
   return (
@@ -47,7 +52,7 @@ export const SearchModal = () => {
           "
         >
           <Dialog.Title className="mb-4 text-xl font-bold text-center ">
-            Search
+            Search any post by title
           </Dialog.Title>
           <div>
             <form onSubmit={handleOnClick}>
@@ -55,6 +60,8 @@ export const SearchModal = () => {
                 <Input
                   className="flex-grow text-black bg-white border-none outine-white"
                   placeholder="Type to search"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
                 />
                 <Button type="submit">
                   <Search />
@@ -66,8 +73,8 @@ export const SearchModal = () => {
           <Dialog.Close asChild>
             <button
               className="
-                  text-neutral-400
-                  hover:text-white
+                  text-white
+                  hover:text-white/80
                   absolute
                   top-[10px]
                   right-[10px]

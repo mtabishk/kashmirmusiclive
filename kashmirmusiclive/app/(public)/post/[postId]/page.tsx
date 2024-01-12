@@ -97,7 +97,7 @@ const PostPage = ({ params }: PostPageProps) => {
         </div>
         <div className="flex flex-col items-center justify-center py-10 xl:py-20">
           <p className="mb-4 text-lg font-semibold text-muted-foreground">
-            SHARE
+            Share this post on socials
           </p>
           <div className="flex justify-center space-x-6">
             <Link

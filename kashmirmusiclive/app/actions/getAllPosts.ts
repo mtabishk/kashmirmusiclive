@@ -2,11 +2,10 @@ import { db } from "@/firebase/firebase-config";
 import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 import { CompletePost } from "../(protected)/admin/components/post-form";
 
-export default async function getPosts(category: string) {
+export default async function getAllPosts() {
   try {
     const q = query(
       collection(db, "posts"),
-      where("category", "==", category),
       where("published", "==", true),
       orderBy("updatedAt", "desc")
     );

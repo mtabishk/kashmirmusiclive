@@ -25,7 +25,7 @@ export const Post = ({
   return (
     <div
       onClick={onClick}
-      className="h-[150px] lg:h-[250px] flex flex-col bg-gray-50 lg:flex-row group hover:cursor-pointer"
+      className=" lg:h-[250px] flex flex-col bg-gray-50 lg:flex-row group hover:cursor-pointer"
     >
       <div className="h-[150px] lg:h-[250px] lg:w-[50%] relative overflow-hidden">
         <Image

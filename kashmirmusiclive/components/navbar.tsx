@@ -15,7 +15,7 @@ const titanOne = Titan_One({
   subsets: ["latin"],
 });
 
-const TOP_OFFSET = 20;
+const TOP_OFFSET = 10;
 
 export const Navbar = () => {
   const pathname = usePathname();

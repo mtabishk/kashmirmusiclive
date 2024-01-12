@@ -28,7 +28,6 @@ import { AuthContext } from "@/providers/auth-context-provider";
 import {
   Timestamp,
   collection,
-  deleteDoc,
   doc,
   serverTimestamp,
   setDoc,
@@ -38,6 +37,7 @@ import { db, storage } from "@/firebase/firebase-config";
 import { v4 as uuidv4 } from "uuid";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { Progress } from "@/components/ui/progress";
+import useDeleteModal from "@/hooks/useDeleteModal";
 
 export type CompletePost = {
   id: string;
@@ -89,6 +89,8 @@ const categories = [
 ];
 
 export const PostForm = ({ initialData }: PostFormProps) => {
+  const { onOpen, setId } = useDeleteModal();
+
   const router = useRouter();
   const { toast } = useToast();
   const auth = useContext(AuthContext);
@@ -211,15 +213,8 @@ export const PostForm = ({ initialData }: PostFormProps) => {
     e.persist();
 
     if (initialData) {
-      const deletePostRef = doc(db, "posts", initialData.id);
-      await deleteDoc(deletePostRef);
-
-      toast({
-        title: "Post is deleted.",
-        duration: 1500,
-      });
-
-      router.push(`/admin/posts`);
+      setId(initialData.id);
+      onOpen();
     }
   };
 

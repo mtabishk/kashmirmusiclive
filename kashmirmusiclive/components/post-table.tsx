@@ -52,7 +52,9 @@ export function PostTable({ posts }: PostTableProps) {
             </TableCell>
             <TableCell>{post.category.toUpperCase()}</TableCell>
             <TableCell>{format(post.date.seconds * 1000, "PPP")}</TableCell>
-            <TableCell>{post.published.toString()}</TableCell>
+            <TableCell className="uppercase">
+              {post.published.toString()}
+            </TableCell>
           </TableRow>
         ))}
       </TableBody>

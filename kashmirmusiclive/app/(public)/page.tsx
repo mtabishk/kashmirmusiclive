@@ -79,34 +79,25 @@ export default function Home() {
           Latest
         </h1>
       </div>
-      <div className="grid grid-cols-1 gap-4 mx-2 space-y-4 lg:mx-40 lg:grid-cols-3">
-        <div className="hidden col-span-3 lg:block">
-          <MainPost
-            title={firstPost.title}
-            category={firstPost.category}
-            imageUrl={firstPost.imageUrl}
-            author={firstPost.author}
-            date={firstPost.date}
-            onClick={() => router.push(`/post/${firstPost.id}`)}
-          />
+      {posts.length === 0 ? (
+        <div className="font-semibold text-center text-muted-foreground">
+          Looks like there are no posts here.
         </div>
-
-        {restPosts.map((post) => (
-          <div key={post.id} className="hidden col-span-1 lg:block">
-            <SecondaryPost
-              title={post.title}
-              category={post.category}
-              imageUrl={post.imageUrl}
-              author={post.author}
-              date={post.date}
-              onClick={() => router.push(`/post/${post.id}`)}
+      ) : (
+        <div className="grid grid-cols-1 gap-4 mx-2 space-y-4 lg:mx-40 lg:grid-cols-3">
+          <div className="hidden col-span-3 lg:block">
+            <MainPost
+              title={firstPost.title}
+              category={firstPost.category}
+              imageUrl={firstPost.imageUrl}
+              author={firstPost.author}
+              date={firstPost.date}
+              onClick={() => router.push(`/post/${firstPost.id}`)}
             />
           </div>
-        ))}
 
-        <div className="block lg:hidden">
-          {posts.map((post) => (
-            <div key={post.id} className="col-span-1 my-4">
+          {restPosts.map((post) => (
+            <div key={post.id} className="hidden col-span-1 lg:block">
               <SecondaryPost
                 title={post.title}
                 category={post.category}
@@ -117,8 +108,23 @@ export default function Home() {
               />
             </div>
           ))}
+
+          <div className="block lg:hidden">
+            {posts.map((post) => (
+              <div key={post.id} className="col-span-1 my-4">
+                <SecondaryPost
+                  title={post.title}
+                  category={post.category}
+                  imageUrl={post.imageUrl}
+                  author={post.author}
+                  date={post.date}
+                  onClick={() => router.push(`/post/${post.id}`)}
+                />
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 }

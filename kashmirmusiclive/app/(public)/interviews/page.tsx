@@ -1,7 +1,7 @@
 "use client";
 
 import { CompletePost } from "@/app/(protected)/admin/components/post-form";
-import getPosts from "@/app/actions/getPosts";
+import getPostsByCategory from "@/app/actions/getPostsByCategory";
 import { Post } from "@/components/post";
 import { Spinner } from "@/components/spinner";
 import { toast } from "@/components/ui/use-toast";
@@ -16,7 +16,9 @@ const InterviewsPage = () => {
 
   const fetchPosts = async () => {
     try {
-      const fetchedPosts: CompletePost[] | null = await getPosts("interviews");
+      const fetchedPosts: CompletePost[] | null = await getPostsByCategory(
+        "interviews"
+      );
       if (fetchedPosts) {
         setPosts(fetchedPosts);
         setIsLoading(false);

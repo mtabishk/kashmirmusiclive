@@ -1,4 +1,5 @@
 "use client";
+import { DeleteModal } from "@/components/delete-modal";
 import { SearchModal } from "@/components/search-modal";
 import React, { useEffect, useState } from "react";
 
@@ -17,6 +18,7 @@ export const ModalProvider = () => {
   return (
     <>
       <SearchModal />
+      <DeleteModal />
     </>
   );
 };
