@@ -38,6 +38,7 @@ export const SearchModal = () => {
               top-[50%]
               left-[50%]
               max-h-full
+              rounded-md
               h-full
               md:h-auto
               md:max-h-[85vh]
@@ -58,7 +59,7 @@ export const SearchModal = () => {
             <form onSubmit={handleOnClick}>
               <div className="flex flex-row items-center justify-end space-x-4">
                 <Input
-                  className="flex-grow text-black bg-white border-none outine-white"
+                  className="flex-grow text-black bg-white border-0 border-none focus-visible:border-0 focus-visible:ring-2"
                   placeholder="Type to search"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
