@@ -7,7 +7,12 @@ body,
 :root {
   height: 100%;
 }
- 
+
+.bn-editor {
+  padding-inline-start: 0px !important;
+  padding-inline-end: 0px !important;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

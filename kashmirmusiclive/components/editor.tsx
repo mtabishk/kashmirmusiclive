@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from "uuid";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "@/firebase/firebase-config";
 import { toast } from "@/components/ui/use-toast";
+import { cn } from "@/lib/utils";
 
 interface EditorProps {
   onChange: (value: string) => void;
@@ -52,7 +53,7 @@ const Editor = ({ onChange, initialContent, editable, theme }: EditorProps) => {
 
   return (
     <div>
-      <BlockNoteView className="p-2" editor={editor} theme={theme} />
+      <BlockNoteView className="p-4" editor={editor} theme={theme} />
     </div>
   );
 };

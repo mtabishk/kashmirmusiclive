@@ -27,7 +27,7 @@ export const Footer = () => {
           <h1 className="text-sm text-white/70">
             Created with{" "}
             <span>
-              <Heart className="inline w-5 h-5 text-red-500 animate-pulse" />
+              <Heart fill="black" className="inline w-5 h-5 animate-pulse" />{" "}
             </span>{" "}
             by{" "}
             <Link href="https://linktr.ee/mtabishk" target="_blank">
