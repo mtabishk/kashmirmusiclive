@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import React, { useEffect, useState } from "react";
 import { Separator } from "./ui/separator";
 import { usePathname, useRouter } from "next/navigation";
-import { Search } from "lucide-react";
+import { Search, X } from "lucide-react";
 import { Titan_One } from "next/font/google";
 import { routes } from "@/lib/routes";
 import useSearchModal from "@/hooks/useSearchModal";
@@ -21,7 +21,7 @@ export const Navbar = () => {
   const pathname = usePathname();
   const router = useRouter();
 
-  const { onOpen } = useSearchModal();
+  const { isOpen, onOpen } = useSearchModal();
 
   const [scrollY, setScrollY] = useState(false);
 
@@ -94,7 +94,11 @@ export const Navbar = () => {
           ))}
         </ul>
         <div onClick={onOpen}>
-          <Search className="text-white" />
+          {!isOpen ? (
+            <Search className="text-white" />
+          ) : (
+            <X className="text-white" />
+          )}
         </div>
       </div>
     </nav>

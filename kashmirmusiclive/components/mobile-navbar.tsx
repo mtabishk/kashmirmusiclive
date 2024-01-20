@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { Titan_One } from "next/font/google";
 import { cn } from "@/lib/utils";
-import { AlignJustify, Search } from "lucide-react";
+import { AlignJustify, Search, X } from "lucide-react";
 import {
   Sheet,
   SheetContent,
@@ -27,7 +27,7 @@ export const MobileNavbar = () => {
   const pathname = usePathname();
   const router = useRouter();
 
-  const { onOpen } = useSearchModal();
+  const { isOpen, onOpen } = useSearchModal();
 
   const [open, setOpen] = useState(false);
 
@@ -42,7 +42,12 @@ export const MobileNavbar = () => {
             <SheetContent side="left" className="bg-red-700 ">
               <SheetHeader>
                 <SheetTitle>
-                  <div onClick={() => router.push("/")}>
+                  <div
+                    onClick={() => {
+                      router.push("/");
+                      setOpen(false);
+                    }}
+                  >
                     <h2
                       className={cn(
                         " text-center py-8 text-4xl font-bold text-white",
@@ -90,7 +95,11 @@ export const MobileNavbar = () => {
           </h2>
         </Link>
         <div onClick={onOpen}>
-          <Search className="text-white" />
+          {!isOpen ? (
+            <Search className="text-white" />
+          ) : (
+            <X className="text-white" />
+          )}
         </div>
       </div>
     </div>

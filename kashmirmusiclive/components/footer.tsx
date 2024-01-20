@@ -1,17 +1,26 @@
+"use client";
+
 import { Heart, Instagram } from "lucide-react";
 import { BsTwitterX } from "react-icons/bs";
 import Link from "next/link";
 import React from "react";
+import { useRouter } from "next/navigation";
 
 export const Footer = () => {
+  const router = useRouter();
   const year = new Date().getFullYear();
   return (
     <div className="py-6 bg-red-700 border border-red-500/30">
       <div className="flex items-center mx-4 lg:mx-10 justify-evenly">
         <p className="text-sm text-white/70">
           {`Copyright © ${year}`}{" "}
-          <span className="underline">Kashmir Music Live</span> | All copyright
-          to respective contributors
+          <span
+            onClick={() => router.push("/")}
+            className="underline hover:cursor-pointer"
+          >
+            Kashmir Music Live
+          </span>{" "}
+          | All copyright to respective contributors
         </p>
         <div className="flex items-center justify-center space-x-4">
           <Link href="https://twitter.com/koshurmusiclive" target="_blank">
