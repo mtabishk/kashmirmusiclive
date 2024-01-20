@@ -1,4 +1,5 @@
-import { Heart, Instagram, Twitter } from "lucide-react";
+import { Heart, Instagram } from "lucide-react";
+import { BsTwitterX } from "react-icons/bs";
 import Link from "next/link";
 import React from "react";
 
@@ -13,14 +14,14 @@ export const Footer = () => {
           to respective contributors
         </p>
         <div className="flex items-center justify-center space-x-4">
+          <Link href="https://twitter.com/koshurmusiclive" target="_blank">
+            <BsTwitterX className="w-5 h-5 text-white/70" />
+          </Link>
           <Link
             href="https://www.instagram.com/kashmirmusiclive"
             target="_blank"
           >
             <Instagram className="w-5 h-5 text-white/70" />
-          </Link>
-          <Link href="https://twitter.com/kashmirmusiclive" target="_blank">
-            <Twitter className="w-5 h-5 text-white/70" />
           </Link>
         </div>
         <div className="hidden lg:block">

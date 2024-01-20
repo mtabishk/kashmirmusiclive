@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Titan_One } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { AlignJustify, Search } from "lucide-react";
@@ -15,6 +15,7 @@ import {
 import { routes } from "@/lib/routes";
 import { usePathname, useRouter } from "next/navigation";
 import useSearchModal from "@/hooks/useSearchModal";
+import Link from "next/link";
 
 const titanOne = Titan_One({
   style: "normal",
@@ -28,15 +29,17 @@ export const MobileNavbar = () => {
 
   const { onOpen } = useSearchModal();
 
+  const [open, setOpen] = useState(false);
+
   return (
     <div className="md:hidden fixed bg-red-700 top-0 left-0 w-full bg-black/90 h-[60px] z-[9999]">
       <div className="flex items-center justify-between px-4 py-4">
         <div>
-          <Sheet>
+          <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger>
               <AlignJustify className="text-white" />
             </SheetTrigger>
-            <SheetContent side="left" className="bg-red-700">
+            <SheetContent side="left" className="bg-red-700 ">
               <SheetHeader>
                 <SheetTitle>
                   <div onClick={() => router.push("/")}>
@@ -55,7 +58,10 @@ export const MobileNavbar = () => {
                     {routes.map((route) => (
                       <div
                         key={route.name}
-                        onClick={() => router.push(route.path)}
+                        onClick={() => {
+                          router.push(route.path);
+                          setOpen(false);
+                        }}
                         className="px-4 cursor-pointer"
                       >
                         <p
@@ -76,9 +82,13 @@ export const MobileNavbar = () => {
             </SheetContent>
           </Sheet>
         </div>
-        <h2 className={cn("text-xl font-bold text-white", titanOne.className)}>
-          KM<span className="text-black">Live</span>
-        </h2>
+        <Link href="/">
+          <h2
+            className={cn("text-xl font-bold text-white", titanOne.className)}
+          >
+            KM<span className="text-black">Live</span>
+          </h2>
+        </Link>
         <div onClick={onOpen}>
           <Search className="text-white" />
         </div>

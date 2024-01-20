@@ -10,6 +10,7 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useMemo, useState } from "react";
+import { BsTwitterX } from "react-icons/bs";
 
 interface PostPageProps {
   params: {
@@ -87,7 +88,7 @@ const PostPage = ({ params }: PostPageProps) => {
             {format(post.date.seconds * 1000, "PPP")}
           </h1>
         </div>
-        <div className="mx-4 lg:mx-40">
+        <div className="mx-1 lg:mx-40">
           <Editor
             initialContent={post.content}
             editable={false}
@@ -96,36 +97,24 @@ const PostPage = ({ params }: PostPageProps) => {
           />
         </div>
         <div className="flex flex-col items-center justify-center py-10 xl:py-20">
-          <p className="mb-4 text-lg font-semibold text-muted-foreground">
-            Share this post on socials
-          </p>
           <div className="flex justify-center space-x-6">
             <Link
-              href={`https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fkashmirmusiclive.com%2Fpost%2F${params.postId}`}
-              rel="nofollow noopener"
-              target="_blank"
-              title="Facebook"
-              className="text-blue-500 hover:text-blue-600"
-            >
-              <Facebook size={24} />
-            </Link>
-            <Link
-              href={`https://twitter.com/intent/tweet?via=TheShahbadR&amp;text=${encodeURIComponent(
+              href={`https://twitter.com/intent/tweet?via=koshurmusiclive&amp;text=${encodeURIComponent(
                 post.title
               )}&amp;url=https%3A%2F%2Fkashmirmusiclive.com%2Fpost%2F${
                 params.postId
               }`}
               rel="nofollow noopener"
               target="_blank"
-              className="text-blue-400 hover:text-blue-500"
+              className="text-black hover:text-black/60"
             >
-              <Twitter size={24} />
+              <BsTwitterX size={24} />
             </Link>
             <Link
               href="https://www.instagram.com/theshahbadreview/"
               rel="nofollow noopener"
               target="_blank"
-              className="text-pink-500 hover:text-pink-600"
+              className="text-pink-600 hover:text-pink-400"
             >
               <Instagram size={24} />
             </Link>
