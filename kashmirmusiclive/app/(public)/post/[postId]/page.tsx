@@ -5,12 +5,14 @@ import { db } from "@/firebase/firebase-config";
 import { Separator } from "@radix-ui/react-separator";
 import { format } from "date-fns";
 import { doc, getDoc } from "firebase/firestore";
-import { Facebook, Instagram, Twitter } from "lucide-react";
+import { Instagram } from "lucide-react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useMemo, useState } from "react";
 import { BsTwitterX } from "react-icons/bs";
+import { TwitterShareButton } from "next-share";
+import { toast } from "@/components/ui/use-toast";
 
 interface PostPageProps {
   params: {
@@ -52,6 +54,8 @@ const PostPage = ({ params }: PostPageProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const pageUrl = window.location.href;
+
   if (!post) {
     return (
       <>
@@ -61,6 +65,14 @@ const PostPage = ({ params }: PostPageProps) => {
       </>
     );
   }
+
+  const handleIgButtonClick = () => {
+    navigator.clipboard.writeText(pageUrl);
+    toast({
+      title: "Post Link Copied!",
+      description: "You can now paste it and share on Instagram",
+    });
+  };
 
   return (
     <div className="w-full overflow-hidden bg-white h-80vh">
@@ -98,26 +110,25 @@ const PostPage = ({ params }: PostPageProps) => {
         </div>
         <div className="flex flex-col items-center justify-center py-10 xl:py-20">
           <div className="flex justify-center space-x-6">
-            <Link
-              href={`https://twitter.com/intent/tweet?via=koshurmusiclive&amp;text=${encodeURIComponent(
-                post.title
-              )}&amp;url=https%3A%2F%2Fkashmirmusiclive.com%2Fpost%2F${
-                params.postId
-              }`}
-              rel="nofollow noopener"
-              target="_blank"
-              className="text-black hover:text-black/60"
+            <TwitterShareButton
+              url={pageUrl}
+              title={
+                post.title.length > 280
+                  ? post.title.substring(0, 270) + "..."
+                  : post.title
+              }
             >
-              <BsTwitterX size={24} />
-            </Link>
-            <Link
-              href="https://www.instagram.com/theshahbadreview/"
-              rel="nofollow noopener"
-              target="_blank"
-              className="text-pink-600 hover:text-pink-400"
+              <BsTwitterX
+                className="text-black hover:text-black/60"
+                size={24}
+              />
+            </TwitterShareButton>
+            <div
+              onClick={handleIgButtonClick}
+              className="text-pink-600 hover:text-pink-400 hover:cursor-pointer"
             >
               <Instagram size={24} />
-            </Link>
+            </div>
           </div>
         </div>
       </div>
