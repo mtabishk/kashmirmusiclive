@@ -100,7 +100,7 @@ const PostPage = ({ params }: PostPageProps) => {
             {format(post.date.seconds * 1000, "PPP")}
           </h1>
         </div>
-        <div className="mx-1 lg:mx-40">
+        <div className="mx-[-10px] lg:mx-40">
           <Editor
             initialContent={post.content}
             editable={false}

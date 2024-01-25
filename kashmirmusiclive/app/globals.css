@@ -9,9 +9,10 @@ body,
 }
 
 .bn-editor {
-  padding-inline-start: 0px !important;
-  padding-inline-end: 0px !important;
+  padding-inline-start: 10px !important;
+  padding-inline-end: 10px !important;
 }
+
 
 @layer base {
   :root {

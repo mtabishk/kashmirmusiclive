@@ -5,15 +5,8 @@ import React, { useEffect, useState } from "react";
 import { Separator } from "./ui/separator";
 import { usePathname, useRouter } from "next/navigation";
 import { Search, X } from "lucide-react";
-import { Titan_One } from "next/font/google";
 import { routes } from "@/lib/routes";
 import useSearchModal from "@/hooks/useSearchModal";
-
-const titanOne = Titan_One({
-  style: "normal",
-  weight: "400",
-  subsets: ["latin"],
-});
 
 const TOP_OFFSET = 10;
 
@@ -50,12 +43,7 @@ export const Navbar = () => {
     >
       {!scrollY && (
         <>
-          <h2
-            className={cn(
-              " text-center py-8 text-4xl font-bold text-white",
-              titanOne.className
-            )}
-          >
+          <h2 className="py-8 text-4xl font-bold text-center text-white">
             Kashmir Music <span className="text-black">Live</span>
           </h2>
           <Separator className="bg-red-500/30" />
@@ -67,7 +55,6 @@ export const Navbar = () => {
           <h2
             className={cn(
               "text-xl font-bold text-white",
-              titanOne.className,
               scrollY ? "opacity-100" : "opacity-0"
             )}
           >
