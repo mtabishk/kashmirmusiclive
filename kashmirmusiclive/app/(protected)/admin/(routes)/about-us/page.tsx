@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 import { db } from "@/firebase/firebase-config";
+import { PartialBlock } from "@blocknote/core";
 import {
   Timestamp,
   collection,
@@ -27,7 +28,7 @@ const AboutUsPage = () => {
     []
   );
   const router = useRouter();
-  const [content, setContent] = useState<string>("");
+  const [content, setContent] = useState<PartialBlock[] | undefined>();
 
   const handleOnClick = async (e: any) => {
     e.preventDefault();
@@ -35,7 +36,7 @@ const AboutUsPage = () => {
     try {
       const newPostRef = doc(collection(db, "aboutus"));
       const data = {
-        content: content,
+        content: JSON.stringify(content),
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
       };
@@ -53,7 +54,6 @@ const AboutUsPage = () => {
         duration: 1500,
       });
     }
-    console.log(content);
   };
 
   const fetchAboutUs = async () => {
@@ -67,8 +67,9 @@ const AboutUsPage = () => {
           latestDoc = doc.data() as DocumentType;
         }
       });
+
       if (latestDoc) {
-        setContent(latestDoc.content);
+        setContent(JSON.parse(latestDoc.content) as PartialBlock[]);
       }
     } catch (error) {
       console.log(error);

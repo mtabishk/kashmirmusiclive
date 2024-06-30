@@ -8,6 +8,10 @@ export const routes = [
     path: "/news",
   },
   {
+    name: "Analyses",
+    path: "/analyses",
+  },
+  {
     name: "Reviews",
     path: "/reviews",
   },

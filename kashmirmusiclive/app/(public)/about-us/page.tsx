@@ -3,6 +3,7 @@
 import { DocumentType } from "@/app/(protected)/admin/(routes)/about-us/page";
 import { Spinner } from "@/components/spinner";
 import { db } from "@/firebase/firebase-config";
+import { PartialBlock } from "@blocknote/core";
 import { collection, getDocs } from "firebase/firestore";
 import dynamic from "next/dynamic";
 import React, { useEffect, useMemo, useState } from "react";
@@ -52,7 +53,7 @@ const AboutUsPage = () => {
     <div className="flex flex-col items-center justify-center lg:mt-[76px] mx-4 lg:mx-40">
       <div>
         <Editor
-          initialContent={aboutUs.content}
+          initialContent={JSON.parse(aboutUs.content) as PartialBlock[]}
           editable={false}
           onChange={() => {}}
           theme="light"

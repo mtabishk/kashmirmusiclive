@@ -1,7 +1,5 @@
 "use client";
 
-import { MainPost } from "@/components/main-post";
-import { SecondaryPost } from "@/components/secondary-post";
 import { useEffect, useState } from "react";
 import { CompletePost } from "../(protected)/admin/components/post-form";
 import {
@@ -15,6 +13,15 @@ import {
 import { db } from "@/firebase/firebase-config";
 import { Spinner } from "@/components/spinner";
 import { useRouter } from "next/navigation";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Scrollbar, EffectFade, Autoplay } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/scrollbar";
+import "swiper/css/effect-fade";
+import "swiper/css/autoplay";
+import Link from "next/link";
+import Slide from "@/components/slide";
+import { HomeCategory } from "@/components/home-category";
 
 export default function Home() {
   const router = useRouter();
@@ -70,59 +77,64 @@ export default function Home() {
     );
   }
 
-  const [firstPost, ...restPosts] = posts;
+  const topPosts = posts.slice(0, 3);
+
+  const categories = [
+    "NEWS",
+    "ANALYSES",
+    "REVIEWS",
+    "INTERVIEWS",
+    "FEATURES",
+    "LISTS",
+    "PODCAST",
+  ];
+
+  const groupedPosts: { [key: string]: CompletePost[] } = {};
+
+  posts.forEach((post) => {
+    const category = post.category.toUpperCase();
+    if (!groupedPosts[category]) {
+      groupedPosts[category] = [post];
+    } else {
+      groupedPosts[category].push(post);
+    }
+  });
+
+  console.log(groupedPosts);
 
   return (
     <>
-      <div className="flex items-center justify-center lg:py-10">
-        <h1 className="text-lg font-semibold uppercase text-black/80">
-          Latest
-        </h1>
-      </div>
+      <div className="lg:py-10" />
       {posts.length === 0 ? (
         <div className="font-semibold text-center text-muted-foreground">
           Looks like there are no posts here.
         </div>
       ) : (
-        <div className="grid grid-cols-1 gap-4 mx-2 space-y-4 lg:mx-40 lg:grid-cols-3">
-          <div className="hidden col-span-3 lg:block">
-            <MainPost
-              title={firstPost.title}
-              category={firstPost.category}
-              imageUrl={firstPost.imageUrl}
-              author={firstPost.author}
-              date={firstPost.date}
-              onClick={() => router.push(`/post/${firstPost.id}`)}
-            />
-          </div>
-
-          {restPosts.map((post) => (
-            <div key={post.id} className="hidden col-span-1 lg:block">
-              <SecondaryPost
-                title={post.title}
-                category={post.category}
-                imageUrl={post.imageUrl}
-                author={post.author}
-                date={post.date}
-                onClick={() => router.push(`/post/${post.id}`)}
-              />
-            </div>
-          ))}
-
-          <div className="block lg:hidden">
-            {posts.map((post) => (
-              <div key={post.id} className="col-span-1 my-4">
-                <SecondaryPost
-                  title={post.title}
-                  category={post.category}
-                  imageUrl={post.imageUrl}
-                  author={post.author}
-                  date={post.date}
-                  onClick={() => router.push(`/post/${post.id}`)}
-                />
-              </div>
+        <div className="min-h-screen mx-auto -mt-10 space-y-20 lg:-mt-28">
+          <Swiper
+            slidesPerView={1}
+            modules={[Scrollbar, EffectFade, Autoplay]}
+            scrollbar={{ draggable: true }}
+            effect="fade"
+            autoplay={{ delay: 2000, disableOnInteraction: true }}
+            loop={true}
+          >
+            {topPosts.map((post) => (
+              <SwiperSlide key={post.id}>
+                <Link key={post.id} href={`/post/${post.id}`}>
+                  <Slide imageUrl={post.imageUrl} title={post.title} />
+                </Link>
+              </SwiperSlide>
             ))}
-          </div>
+          </Swiper>
+
+          {categories.map((category) => (
+            <HomeCategory
+              key={category}
+              category={category}
+              posts={groupedPosts[category.toUpperCase()] || []}
+            />
+          ))}
         </div>
       )}
     </>

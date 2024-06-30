@@ -64,6 +64,10 @@ const categories = [
     id: "news",
   },
   {
+    name: "Analyses",
+    id: "analyses",
+  },
+  {
     name: "Reviews",
     id: "reviews",
   },
