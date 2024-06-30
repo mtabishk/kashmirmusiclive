@@ -8,11 +8,13 @@ import { doc, getDoc } from "firebase/firestore";
 import { Instagram } from "lucide-react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import Link from "next/link";
+
 import React, { useEffect, useMemo, useState } from "react";
 import { BsTwitterX } from "react-icons/bs";
 import { TwitterShareButton } from "next-share";
 import { toast } from "@/components/ui/use-toast";
+import { usePathname } from "next/navigation";
+import { PartialBlock } from "@blocknote/core";
 
 interface PostPageProps {
   params: {
@@ -21,6 +23,8 @@ interface PostPageProps {
 }
 
 const PostPage = ({ params }: PostPageProps) => {
+  const pathname = usePathname();
+
   const Editor = useMemo(
     () => dynamic(() => import("@/components/editor"), { ssr: false }),
     []
@@ -37,7 +41,7 @@ const PostPage = ({ params }: PostPageProps) => {
       id: docSnap.id,
       author: docSnap.data().author,
       category: docSnap.data().category,
-      content: docSnap.data().content,
+      content: JSON.parse(docSnap.data().content) as PartialBlock[],
       createdAt: docSnap.data().createdAt,
       date: docSnap.data().date,
       imageUrl: docSnap.data().imageUrl,
@@ -54,7 +58,7 @@ const PostPage = ({ params }: PostPageProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const pageUrl = window.location.href;
+  const pageUrl = pathname;
 
   if (!post) {
     return (

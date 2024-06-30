@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
@@ -38,12 +38,13 @@ import { v4 as uuidv4 } from "uuid";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { Progress } from "@/components/ui/progress";
 import useDeleteModal from "@/hooks/useDeleteModal";
+import { PartialBlock } from "@blocknote/core";
 
 export type CompletePost = {
   id: string;
   author: string;
   category: string;
-  content: string;
+  content: PartialBlock[] | undefined;
   createdAt: Timestamp;
   date: Timestamp;
   imageUrl: string;
@@ -107,7 +108,7 @@ export const PostForm = ({ initialData }: PostFormProps) => {
   const [author, setAuthor] = useState<string>("");
   const [date, setDate] = useState<Date>();
   const [file, setFile] = useState<File>();
-  const [content, setContent] = useState<string>();
+  const [content, setContent] = useState<PartialBlock[] | undefined>();
 
   const [imageUploading, setImageUploading] = useState<boolean>(false);
   const [imageUrl, setImageUrl] = useState<string>("");
@@ -157,6 +158,7 @@ export const PostForm = ({ initialData }: PostFormProps) => {
     e.persist();
     try {
       setIsLoading(true);
+
       if (!title || !category || !author || !date || !content || !imageUrl) {
         toast({
           variant: "destructive",
@@ -172,7 +174,7 @@ export const PostForm = ({ initialData }: PostFormProps) => {
         author: author,
         date: date,
         imageUrl: imageUrl,
-        content: content,
+        content: JSON.stringify(content),
         published: initialData?.published || false,
         uid: auth?.currentUser?.uid,
         createdAt: serverTimestamp(),

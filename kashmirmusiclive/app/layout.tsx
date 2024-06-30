@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
+import { Belleza } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AuthContextProvider } from "@/providers/auth-context-provider";
 import { ModalProvider } from "@/providers/modal-provider";
 import { Toaster } from "@/components/ui/toaster";
 
-const poppins = Poppins({
+const belleza = Belleza({
   weight: "400",
   subsets: ["latin"],
 });
@@ -37,7 +37,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={poppins.className}>
+      <body className={belleza.className}>
         <AuthContextProvider>
           <ThemeProvider
             attribute="class"

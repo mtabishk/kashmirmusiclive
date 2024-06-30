@@ -71,7 +71,7 @@ export const Navbar = () => {
             >
               <p
                 className={cn(
-                  "text-xs font-bold uppercase hover:text-white",
+                  "text-sm font-bold uppercase hover:text-white",
                   pathname === route.path ? "text-white" : "text-white/70"
                 )}
               >
