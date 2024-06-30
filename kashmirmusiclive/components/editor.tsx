@@ -1,23 +1,26 @@
 "use client";
 
-import { BlockNoteEditor, PartialBlock } from "@blocknote/core";
-import { BlockNoteView, useBlockNote } from "@blocknote/react";
-import "@blocknote/core/style.css";
+import { Block, BlockNoteEditor, PartialBlock } from "@blocknote/core";
+import { useCreateBlockNote } from "@blocknote/react";
+import { BlockNoteView } from "@blocknote/mantine";
+import "@blocknote/core/fonts/inter.css";
+import "@blocknote/mantine/style.css";
+
 import { v4 as uuidv4 } from "uuid";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "@/firebase/firebase-config";
 import { toast } from "@/components/ui/use-toast";
-import { cn } from "@/lib/utils";
+import { useEffect, useMemo } from "react";
 
 interface EditorProps {
-  onChange: (value: string) => void;
-  initialContent?: string;
+  onChange: (jsonBlocks: Block[]) => void;
+  initialContent?: PartialBlock[] | undefined;
   editable?: boolean;
   theme: "light" | "dark";
 }
 
 const Editor = ({ onChange, initialContent, editable, theme }: EditorProps) => {
-  const handleUpload = async (file: File): Promise<string> => {
+  async function uploadFile(file: File) {
     try {
       if (file) {
         const fileName = uuidv4();
@@ -36,24 +39,24 @@ const Editor = ({ onChange, initialContent, editable, theme }: EditorProps) => {
       });
       return "";
     }
-  };
+  }
 
-  const editor: BlockNoteEditor = useBlockNote({
-    editable,
-    initialContent: initialContent
-      ? //@ts-expect-error
-        (JSON.parse(initialContent) as PartialBlock[])
-      : undefined,
-    onEditorContentChange: (editor) => {
-      console.log("Editor Content Changed:", editor.topLevelBlocks);
-      onChange(JSON.stringify(editor.topLevelBlocks, null, 2));
-    },
-    uploadFile: handleUpload,
+  const editor: BlockNoteEditor = useCreateBlockNote({
+    initialContent: initialContent ? initialContent : undefined,
+    uploadFile,
   });
 
   return (
     <div>
-      <BlockNoteView className="p-4" editor={editor} theme={theme} />
+      <BlockNoteView
+        className="p-4"
+        editor={editor}
+        editable={editable}
+        theme={theme}
+        onChange={() => {
+          onChange(editor.document);
+        }}
+      />
     </div>
   );
 };

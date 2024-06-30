@@ -6,6 +6,7 @@ import {
 } from "@/app/(protected)/admin/components/post-form";
 import { Spinner } from "@/components/spinner";
 import { db } from "@/firebase/firebase-config";
+import { PartialBlock } from "@blocknote/core";
 import { doc, getDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 
@@ -31,7 +32,7 @@ const PostIdPage = ({ params }: PostIdPageProps) => {
       id: docSnap.id,
       author: docSnap.data().author,
       category: docSnap.data().category,
-      content: docSnap.data().content,
+      content: JSON.parse(docSnap.data().content) as PartialBlock[],
       createdAt: docSnap.data().createdAt,
       date: docSnap.data().date,
       imageUrl: docSnap.data().imageUrl,

@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import { Titan_One } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { AlignJustify, Search, X } from "lucide-react";
 import {
@@ -16,12 +15,6 @@ import { routes } from "@/lib/routes";
 import { usePathname, useRouter } from "next/navigation";
 import useSearchModal from "@/hooks/useSearchModal";
 import Link from "next/link";
-
-const titanOne = Titan_One({
-  style: "normal",
-  weight: "400",
-  subsets: ["latin"],
-});
 
 export const MobileNavbar = () => {
   const pathname = usePathname();
@@ -48,12 +41,7 @@ export const MobileNavbar = () => {
                       setOpen(false);
                     }}
                   >
-                    <h2
-                      className={cn(
-                        " text-center py-8 text-4xl font-bold text-white",
-                        titanOne.className
-                      )}
-                    >
+                    <h2 className="py-8 text-4xl font-bold text-center text-white">
                       Kashmir Music <span className="text-black">Live</span>
                     </h2>
                   </div>
@@ -88,9 +76,7 @@ export const MobileNavbar = () => {
           </Sheet>
         </div>
         <Link href="/">
-          <h2
-            className={cn("text-xl font-bold text-white", titanOne.className)}
-          >
+          <h2 className="text-xl font-bold text-white">
             KM<span className="text-black">Live</span>
           </h2>
         </Link>
