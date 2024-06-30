@@ -74,7 +74,7 @@ export const HomeCategory: React.FC<HomeCategoryProps> = ({
           <div className="flex flex-row items-center justify-end">
             <button
               className="px-4 py-2 text-lg  font-bold text-white uppercase transition duration-300 bg-red-700 rounded-md hover:bg-[#332a0f] hover:cursor-pointer"
-              //   onClick={() => router.push(`/${convertToSlug(category)}`)}
+              onClick={() => router.push(`/${convertToSlug(category)}`)}
             >
               VIEW MORE
             </button>
@@ -83,7 +83,9 @@ export const HomeCategory: React.FC<HomeCategoryProps> = ({
       </div>
       {/* Mobile view */}
       <div className="max-w-6xl px-2 pt-10 pb-10 mx-auto shadow-lg lg:hidden bg-gray-50 md:pt-20 md:px-6 md:pb-6">
-        <h1 className="mb-4 text-xl font-bold uppercase">{category}</h1>
+        <h1 className="mb-4 text-xl font-bold text-black uppercase">
+          {category}
+        </h1>
         <div className="flex flex-col space-y-6">
           {posts.map((post) => (
             <Link key={post.id} href={`/post/${post.id}`}>
@@ -95,7 +97,7 @@ export const HomeCategory: React.FC<HomeCategoryProps> = ({
                   width={300}
                   height={150}
                 />
-                <h1 className="pt-2 text-lg font-bold group-hover:text-red-600">
+                <h1 className="pt-2 text-lg font-bold text-black group-hover:text-red-600">
                   {post.title}
                 </h1>
               </div>
@@ -104,8 +106,8 @@ export const HomeCategory: React.FC<HomeCategoryProps> = ({
 
           <div className="flex justify-center">
             <button
-              className="px-4 py-2 text-lg font-bold text-white uppercase transition duration-300 bg-[#341f1d] rounded-md hover:bg-[#332a0f] hover:cursor-pointer"
-              //   onClick={() => router.push(`/${convertToSlug(category)}`)}
+              className="px-4 py-2 text-lg font-bold text-white uppercase transition duration-300 bg-red-700 rounded-md hover:bg-[#332a0f] hover:cursor-pointer"
+              onClick={() => router.push(`/${convertToSlug(category)}`)}
             >
               VIEW MORE
             </button>
