@@ -100,7 +100,7 @@ const SearchBar = () => {
   );
 };
 
-export function SearchPage() {
+export default function SearchPage() {
   return (
     <Suspense fallback={<Spinner size="lg" />}>
       <SearchBar />
