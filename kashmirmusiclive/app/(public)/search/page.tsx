@@ -1,15 +1,14 @@
 "use client";
 import { CompletePost } from "@/app/(protected)/admin/components/post-form";
 import getAllPosts from "@/app/actions/getAllPosts";
-import getPostsByCategory from "@/app/actions/getPostsByCategory";
 import { Post } from "@/components/post";
 import { Spinner } from "@/components/spinner";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
 import { useRouter, useSearchParams } from "next/navigation";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { Suspense, useEffect, useMemo, useState } from "react";
 
-const SearchPage = () => {
+const SearchBar = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -101,4 +100,10 @@ const SearchPage = () => {
   );
 };
 
-export default SearchPage;
+export function SearchPage() {
+  return (
+    <Suspense fallback={<Spinner size="lg" />}>
+      <SearchBar />
+    </Suspense>
+  );
+}
