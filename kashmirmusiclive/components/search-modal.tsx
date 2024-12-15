@@ -28,10 +28,11 @@ export const SearchModal = () => {
   return (
     <Dialog.Root open={isOpen} defaultOpen={isOpen} onOpenChange={onChange}>
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 bg-red-900/20 backdrop-blur-sm" />
+        <Dialog.Overlay className="fixed inset-0 bg-red-900/20 backdrop-blur-sm z-[9999]" />
         <Dialog.Content
           className="
               fixed
+              z-[99999]
               drop-shadow-md
               border
               border-red-700/20

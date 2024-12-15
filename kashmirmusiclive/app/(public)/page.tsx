@@ -24,8 +24,6 @@ import Slide from "@/components/slide";
 import { HomeCategory } from "@/components/home-category";
 
 export default function Home() {
-  const router = useRouter();
-
   const [posts, setPosts] = useState<CompletePost[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -110,7 +108,7 @@ export default function Home() {
           Looks like there are no posts here.
         </div>
       ) : (
-        <div className="min-h-screen mx-auto -mt-10 space-y-20 lg:-mt-28">
+        <div className="min-h-screen mx-auto mt-0 space-y-20 lg:-mt-20 ">
           <Swiper
             slidesPerView={1}
             modules={[Scrollbar, EffectFade, Autoplay]}
