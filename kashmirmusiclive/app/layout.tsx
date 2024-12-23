@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { AuthContextProvider } from "@/providers/auth-context-provider";
 import { ModalProvider } from "@/providers/modal-provider";
 import { Toaster } from "@/components/ui/toaster";
+import Head from "next/head";
 
 const belleza = Belleza({
   weight: "400",

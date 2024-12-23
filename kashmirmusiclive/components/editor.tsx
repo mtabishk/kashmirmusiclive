@@ -49,6 +49,7 @@ const Editor = ({ onChange, initialContent, editable, theme }: EditorProps) => {
   return (
     <div>
       <BlockNoteView
+        data-changing-font
         className="p-4"
         editor={editor}
         editable={editable}
