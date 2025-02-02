@@ -11,3 +11,9 @@ export function convertToSlug(category: String) {
     .replace(/\s+&\s+/g, "-and-")
     .replace(/\s+/g, "-");
 }
+
+export function getRandomFileName() {
+  const currentDate = new Date();
+  const timestamp = currentDate.getTime();
+  return timestamp.toString();
+}

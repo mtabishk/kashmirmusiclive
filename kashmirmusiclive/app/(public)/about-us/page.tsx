@@ -3,17 +3,10 @@
 import { DocumentType } from "@/app/(protected)/admin/(routes)/about-us/page";
 import { Spinner } from "@/components/spinner";
 import { db } from "@/firebase/firebase-config";
-import { PartialBlock } from "@blocknote/core";
 import { collection, getDocs } from "firebase/firestore";
-import dynamic from "next/dynamic";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const AboutUsPage = () => {
-  const Editor = useMemo(
-    () => dynamic(() => import("@/components/editor"), { ssr: false }),
-    []
-  );
-
   const [aboutUs, setAboutUs] = useState<DocumentType | null>(null);
 
   const fetchAboutUs = async () => {
@@ -51,12 +44,10 @@ const AboutUsPage = () => {
 
   return (
     <div className="flex flex-col items-center justify-center lg:mt-[76px] mx-4 lg:mx-40">
-      <div>
-        <Editor
-          initialContent={JSON.parse(aboutUs.content) as PartialBlock[]}
-          editable={false}
-          onChange={() => {}}
-          theme="light"
+      <div className="max-w-6xl px-2 pt-10 mx-auto md:px-6 lg:px-8">
+        <div
+          className="pt-10 prose prose-lg text-gray-900 ql-editor max-w-none"
+          dangerouslySetInnerHTML={{ __html: aboutUs.content }}
         />
       </div>
     </div>

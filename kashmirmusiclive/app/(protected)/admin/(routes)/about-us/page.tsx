@@ -1,9 +1,9 @@
 "use client";
 
+import QuillsEditor from "@/components/quills-editor";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 import { db } from "@/firebase/firebase-config";
-import { PartialBlock } from "@blocknote/core";
 import {
   Timestamp,
   collection,
@@ -12,7 +12,6 @@ import {
   serverTimestamp,
   setDoc,
 } from "firebase/firestore";
-import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
 
@@ -23,12 +22,8 @@ export type DocumentType = {
 };
 
 const AboutUsPage = () => {
-  const Editor = useMemo(
-    () => dynamic(() => import("@/components/editor"), { ssr: false }),
-    []
-  );
   const router = useRouter();
-  const [content, setContent] = useState<PartialBlock[] | undefined>();
+  const [content, setContent] = useState<any | undefined>();
 
   const handleOnClick = async (e: any) => {
     e.preventDefault();
@@ -36,7 +31,7 @@ const AboutUsPage = () => {
     try {
       const newPostRef = doc(collection(db, "aboutus"));
       const data = {
-        content: JSON.stringify(content),
+        content: content,
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
       };
@@ -69,7 +64,7 @@ const AboutUsPage = () => {
       });
 
       if (latestDoc) {
-        setContent(JSON.parse(latestDoc.content) as PartialBlock[]);
+        setContent(JSON.parse(latestDoc.content) as any[]);
       }
     } catch (error) {
       console.log(error);
@@ -80,8 +75,6 @@ const AboutUsPage = () => {
     fetchAboutUs();
   }, []);
 
-  const editorKey = content ? "editor" : "editor-empty";
-
   return (
     <div className="flex flex-col">
       <div className="flex flex-row items-center justify-between">
@@ -90,12 +83,9 @@ const AboutUsPage = () => {
         </h1>
         <Button onClick={handleOnClick}>Update</Button>
       </div>
-      <Editor
-        key={editorKey}
-        initialContent={content}
-        onChange={(value) => setContent(value)}
-        theme="light"
-      />
+      <div className="h-[650px] bg-white mt-2">
+        <QuillsEditor value={content} setValue={setContent} />
+      </div>
     </div>
   );
 };

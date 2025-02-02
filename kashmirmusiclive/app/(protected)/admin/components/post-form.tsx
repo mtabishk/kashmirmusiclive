@@ -38,13 +38,13 @@ import { v4 as uuidv4 } from "uuid";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { Progress } from "@/components/ui/progress";
 import useDeleteModal from "@/hooks/useDeleteModal";
-import { PartialBlock } from "@blocknote/core";
+import QuillsEditor from "@/components/quills-editor";
 
 export type CompletePost = {
   id: string;
   author: string;
   category: string;
-  content: PartialBlock[] | undefined;
+  content: any | undefined;
   createdAt: Timestamp;
   date: Timestamp;
   imageUrl: string;
@@ -100,11 +100,6 @@ export const PostForm = ({ initialData }: PostFormProps) => {
   const { toast } = useToast();
   const auth = useContext(AuthContext);
 
-  const Editor = useMemo(
-    () => dynamic(() => import("@/components/editor"), { ssr: false }),
-    []
-  );
-
   const [isLoading, setIsLoading] = useState(false);
 
   const [title, setTitle] = useState<string>("");
@@ -112,7 +107,7 @@ export const PostForm = ({ initialData }: PostFormProps) => {
   const [author, setAuthor] = useState<string>("");
   const [date, setDate] = useState<Date>();
   const [file, setFile] = useState<File>();
-  const [content, setContent] = useState<PartialBlock[] | undefined>();
+  const [content, setContent] = useState<any | "">();
 
   const [imageUploading, setImageUploading] = useState<boolean>(false);
   const [imageUrl, setImageUrl] = useState<string>("");
@@ -122,7 +117,7 @@ export const PostForm = ({ initialData }: PostFormProps) => {
   const handleImageUpload = async () => {
     if (file) {
       setImageUploading(true);
-      setProgress(13);
+      setProgress(10);
       const fileName = uuidv4();
       const storageRef = ref(storage, `/uploads/${fileName}`);
       const uploadTask = uploadBytesResumable(storageRef, file);
@@ -405,17 +400,14 @@ export const PostForm = ({ initialData }: PostFormProps) => {
           </Popover>
         </div>
       </div>
-      <div className="mx-2 mt-4 mb-8 lg:mt-8">
+      <div className="mx-2 mt-4 mb-8 lg:mt-72 lg:mb-44 ">
         <Label htmlFor="title" className="ml-4 ">
           Content
         </Label>
 
-        <Editor
-          key={editorKey}
-          initialContent={initialData?.content || content}
-          onChange={(value) => setContent(value)}
-          theme="light"
-        />
+        <div className="h-[650px] bg-white mt-2">
+          <QuillsEditor value={content} setValue={setContent} />
+        </div>
       </div>
     </div>
   );

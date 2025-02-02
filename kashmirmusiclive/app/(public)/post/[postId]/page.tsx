@@ -14,7 +14,6 @@ import { BsTwitterX } from "react-icons/bs";
 import { TwitterShareButton } from "next-share";
 import { toast } from "@/components/ui/use-toast";
 import { usePathname } from "next/navigation";
-import { PartialBlock } from "@blocknote/core";
 
 interface PostPageProps {
   params: {
@@ -25,10 +24,6 @@ interface PostPageProps {
 const PostPage = ({ params }: PostPageProps) => {
   const pathname = usePathname();
 
-  const Editor = useMemo(
-    () => dynamic(() => import("@/components/editor"), { ssr: false }),
-    []
-  );
   const [post, setPost] = useState<CompletePost | null>(null);
 
   const fetchPost = async () => {
@@ -41,7 +36,7 @@ const PostPage = ({ params }: PostPageProps) => {
       id: docSnap.id,
       author: docSnap.data().author,
       category: docSnap.data().category,
-      content: JSON.parse(docSnap.data().content) as PartialBlock[],
+      content: JSON.parse(docSnap.data().content) as any,
       createdAt: docSnap.data().createdAt,
       date: docSnap.data().date,
       imageUrl: docSnap.data().imageUrl,
@@ -104,12 +99,10 @@ const PostPage = ({ params }: PostPageProps) => {
             {format(post.date.seconds * 1000, "PPP")}
           </h1>
         </div>
-        <div className="mx-[-10px] lg:mx-40">
-          <Editor
-            initialContent={post.content}
-            editable={false}
-            onChange={() => {}}
-            theme="light"
+        <div className="max-w-6xl px-2 pt-10 mx-auto md:px-6 lg:px-8">
+          <div
+            className="pt-10 prose prose-lg text-gray-900 ql-editor max-w-none"
+            dangerouslySetInnerHTML={{ __html: post.content }}
           />
         </div>
         <div className="flex flex-col items-center justify-center py-10 xl:py-20">
